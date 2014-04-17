@@ -111,7 +111,7 @@ void loop(void)
 		
 		else
 		{
-			target_pwm = 61;
+			target_pwm = 81;
 			light_on = TRUE;
 			button_state = FALSE;
 		}
