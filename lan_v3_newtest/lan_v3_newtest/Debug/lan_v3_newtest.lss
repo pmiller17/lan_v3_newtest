@@ -3,33 +3,33 @@ lan_v3_newtest.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000002a0  00000000  00000000  00000094  2**1
+  0 .text         000002a2  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  000002a0  00000334  2**0
+  1 .data         00000000  00800060  000002a2  00000336  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          0000000a  00800060  00800060  00000334  2**0
+  2 .bss          0000000a  00800060  00800060  00000336  2**0
                   ALLOC
-  3 .stab         000006cc  00000000  00000000  00000334  2**2
+  3 .stab         000006cc  00000000  00000000  00000338  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      00000097  00000000  00000000  00000a00  2**0
+  4 .stabstr      00000097  00000000  00000000  00000a04  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .comment      0000002f  00000000  00000000  00000a97  2**0
+  5 .comment      0000002f  00000000  00000000  00000a9b  2**0
                   CONTENTS, READONLY
-  6 .debug_aranges 00000090  00000000  00000000  00000ac6  2**0
+  6 .debug_aranges 00000090  00000000  00000000  00000aca  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   0000032c  00000000  00000000  00000b56  2**0
+  7 .debug_info   0000032c  00000000  00000000  00000b5a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 000001c2  00000000  00000000  00000e82  2**0
+  8 .debug_abbrev 000001c2  00000000  00000000  00000e86  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   00000360  00000000  00000000  00001044  2**0
+  9 .debug_line   00000360  00000000  00000000  00001048  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_frame  0000010c  00000000  00000000  000013a4  2**2
+ 10 .debug_frame  0000010c  00000000  00000000  000013a8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    000001ad  00000000  00000000  000014b0  2**0
+ 11 .debug_str    000001ad  00000000  00000000  000014b4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    000001f0  00000000  00000000  0000165d  2**0
+ 12 .debug_loc    000001f0  00000000  00000000  00001661  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 00000060  00000000  00000000  0000184d  2**0
+ 13 .debug_ranges 00000060  00000000  00000000  00001851  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -37,7 +37,7 @@ Disassembly of section .text:
 00000000 <__vectors>:
    0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
    2:	21 c0       	rjmp	.+66     	; 0x46 <__bad_interrupt>
-   4:	2b c1       	rjmp	.+598    	; 0x25c <__vector_2>
+   4:	2c c1       	rjmp	.+600    	; 0x25e <__vector_2>
    6:	1f c0       	rjmp	.+62     	; 0x46 <__bad_interrupt>
    8:	1e c0       	rjmp	.+60     	; 0x46 <__bad_interrupt>
    a:	1d c0       	rjmp	.+58     	; 0x46 <__bad_interrupt>
@@ -46,7 +46,7 @@ Disassembly of section .text:
   10:	1a c0       	rjmp	.+52     	; 0x46 <__bad_interrupt>
   12:	19 c0       	rjmp	.+50     	; 0x46 <__bad_interrupt>
   14:	18 c0       	rjmp	.+48     	; 0x46 <__bad_interrupt>
-  16:	38 c1       	rjmp	.+624    	; 0x288 <__vector_11>
+  16:	39 c1       	rjmp	.+626    	; 0x28a <__vector_11>
   18:	16 c0       	rjmp	.+44     	; 0x46 <__bad_interrupt>
   1a:	15 c0       	rjmp	.+42     	; 0x46 <__bad_interrupt>
   1c:	14 c0       	rjmp	.+40     	; 0x46 <__bad_interrupt>
@@ -76,8 +76,8 @@ Disassembly of section .text:
   3c:	aa 36       	cpi	r26, 0x6A	; 106
   3e:	b2 07       	cpc	r27, r18
   40:	e1 f7       	brne	.-8      	; 0x3a <.do_clear_bss_loop>
-  42:	09 d1       	rcall	.+530    	; 0x256 <main>
-  44:	2b c1       	rjmp	.+598    	; 0x29c <_exit>
+  42:	0a d1       	rcall	.+532    	; 0x258 <main>
+  44:	2c c1       	rjmp	.+600    	; 0x29e <_exit>
 
 00000046 <__bad_interrupt>:
   46:	dc cf       	rjmp	.-72     	; 0x0 <__vectors>
@@ -471,107 +471,111 @@ void loop(void)
  218:	10 92 62 00 	sts	0x0062, r1
 		}
 	}
+	
+	adc_result = adc_read_iled();
+ 21c:	15 df       	rcall	.-470    	; 0x48 <adc_read_iled>
+ 21e:	90 93 67 00 	sts	0x0067, r25
+ 222:	80 93 66 00 	sts	0x0066, r24
+	
 	if(light_on == TRUE)
- 21c:	80 91 60 00 	lds	r24, 0x0060
- 220:	90 91 61 00 	lds	r25, 0x0061
- 224:	01 97       	sbiw	r24, 0x01	; 1
- 226:	b1 f4       	brne	.+44     	; 0x254 <loop+0xa2>
+ 226:	20 91 60 00 	lds	r18, 0x0060
+ 22a:	30 91 61 00 	lds	r19, 0x0061
+ 22e:	21 30       	cpi	r18, 0x01	; 1
+ 230:	31 05       	cpc	r19, r1
+ 232:	89 f4       	brne	.+34     	; 0x256 <loop+0xa4>
 	{
-		adc_result = adc_read_iled();
- 228:	0f df       	rcall	.-482    	; 0x48 <adc_read_iled>
- 22a:	90 93 67 00 	sts	0x0067, r25
- 22e:	80 93 66 00 	sts	0x0066, r24
+		
 		if(adc_result < target_pwm)
- 232:	20 91 68 00 	lds	r18, 0x0068
- 236:	30 91 69 00 	lds	r19, 0x0069
- 23a:	82 17       	cp	r24, r18
- 23c:	93 07       	cpc	r25, r19
- 23e:	24 f4       	brge	.+8      	; 0x248 <loop+0x96>
+ 234:	20 91 68 00 	lds	r18, 0x0068
+ 238:	30 91 69 00 	lds	r19, 0x0069
+ 23c:	82 17       	cp	r24, r18
+ 23e:	93 07       	cpc	r25, r19
+ 240:	24 f4       	brge	.+8      	; 0x24a <loop+0x98>
 		{
 			OCR1B++;
- 240:	8c b5       	in	r24, 0x2c	; 44
- 242:	8f 5f       	subi	r24, 0xFF	; 255
- 244:	8c bd       	out	0x2c, r24	; 44
- 246:	08 95       	ret
+ 242:	8c b5       	in	r24, 0x2c	; 44
+ 244:	8f 5f       	subi	r24, 0xFF	; 255
+ 246:	8c bd       	out	0x2c, r24	; 44
+ 248:	08 95       	ret
 		}
 		else if(adc_result > target_pwm)
- 248:	28 17       	cp	r18, r24
- 24a:	39 07       	cpc	r19, r25
- 24c:	1c f4       	brge	.+6      	; 0x254 <loop+0xa2>
+ 24a:	28 17       	cp	r18, r24
+ 24c:	39 07       	cpc	r19, r25
+ 24e:	1c f4       	brge	.+6      	; 0x256 <loop+0xa4>
 		{
 			OCR1B--;
- 24e:	8c b5       	in	r24, 0x2c	; 44
- 250:	81 50       	subi	r24, 0x01	; 1
- 252:	8c bd       	out	0x2c, r24	; 44
- 254:	08 95       	ret
+ 250:	8c b5       	in	r24, 0x2c	; 44
+ 252:	81 50       	subi	r24, 0x01	; 1
+ 254:	8c bd       	out	0x2c, r24	; 44
+ 256:	08 95       	ret
 
-00000256 <main>:
+00000258 <main>:
 int light_on = FALSE;
 static int glitch_counter = 0;
 
 int main(void)
 {
     setup();
- 256:	41 df       	rcall	.-382    	; 0xda <setup>
+ 258:	40 df       	rcall	.-384    	; 0xda <setup>
 	for (;;) 
 	{
 		loop();
- 258:	ac df       	rcall	.-168    	; 0x1b2 <loop>
- 25a:	fe cf       	rjmp	.-4      	; 0x258 <main+0x2>
+ 25a:	ab df       	rcall	.-170    	; 0x1b2 <loop>
+ 25c:	fe cf       	rjmp	.-4      	; 0x25a <main+0x2>
 
-0000025c <__vector_2>:
+0000025e <__vector_2>:
 		}
 	}
 }
 
 ISR(PCINT_vect)
 {
- 25c:	1f 92       	push	r1
- 25e:	0f 92       	push	r0
- 260:	0f b6       	in	r0, 0x3f	; 63
- 262:	0f 92       	push	r0
- 264:	11 24       	eor	r1, r1
- 266:	8f 93       	push	r24
- 268:	9f 93       	push	r25
+ 25e:	1f 92       	push	r1
+ 260:	0f 92       	push	r0
+ 262:	0f b6       	in	r0, 0x3f	; 63
+ 264:	0f 92       	push	r0
+ 266:	11 24       	eor	r1, r1
+ 268:	8f 93       	push	r24
+ 26a:	9f 93       	push	r25
 
 	if(BUTTON_PRESSED_NOW)
- 26a:	b0 99       	sbic	0x16, 0	; 22
- 26c:	06 c0       	rjmp	.+12     	; 0x27a <__vector_2+0x1e>
+ 26c:	b0 99       	sbic	0x16, 0	; 22
+ 26e:	06 c0       	rjmp	.+12     	; 0x27c <__vector_2+0x1e>
 	{
 		needs_debounce = TRUE;
- 26e:	81 e0       	ldi	r24, 0x01	; 1
- 270:	90 e0       	ldi	r25, 0x00	; 0
- 272:	90 93 65 00 	sts	0x0065, r25
- 276:	80 93 64 00 	sts	0x0064, r24
+ 270:	81 e0       	ldi	r24, 0x01	; 1
+ 272:	90 e0       	ldi	r25, 0x00	; 0
+ 274:	90 93 65 00 	sts	0x0065, r25
+ 278:	80 93 64 00 	sts	0x0064, r24
 	}
 	
 }
- 27a:	9f 91       	pop	r25
- 27c:	8f 91       	pop	r24
- 27e:	0f 90       	pop	r0
- 280:	0f be       	out	0x3f, r0	; 63
- 282:	0f 90       	pop	r0
- 284:	1f 90       	pop	r1
- 286:	18 95       	reti
+ 27c:	9f 91       	pop	r25
+ 27e:	8f 91       	pop	r24
+ 280:	0f 90       	pop	r0
+ 282:	0f be       	out	0x3f, r0	; 63
+ 284:	0f 90       	pop	r0
+ 286:	1f 90       	pop	r1
+ 288:	18 95       	reti
 
-00000288 <__vector_11>:
+0000028a <__vector_11>:
 
 ISR(ADC_vect)
 {
- 288:	1f 92       	push	r1
- 28a:	0f 92       	push	r0
- 28c:	0f b6       	in	r0, 0x3f	; 63
- 28e:	0f 92       	push	r0
- 290:	11 24       	eor	r1, r1
+ 28a:	1f 92       	push	r1
+ 28c:	0f 92       	push	r0
+ 28e:	0f b6       	in	r0, 0x3f	; 63
+ 290:	0f 92       	push	r0
+ 292:	11 24       	eor	r1, r1
 	;
- 292:	0f 90       	pop	r0
- 294:	0f be       	out	0x3f, r0	; 63
- 296:	0f 90       	pop	r0
- 298:	1f 90       	pop	r1
- 29a:	18 95       	reti
+ 294:	0f 90       	pop	r0
+ 296:	0f be       	out	0x3f, r0	; 63
+ 298:	0f 90       	pop	r0
+ 29a:	1f 90       	pop	r1
+ 29c:	18 95       	reti
 
-0000029c <_exit>:
- 29c:	f8 94       	cli
+0000029e <_exit>:
+ 29e:	f8 94       	cli
 
-0000029e <__stop_program>:
- 29e:	ff cf       	rjmp	.-2      	; 0x29e <__stop_program>
+000002a0 <__stop_program>:
+ 2a0:	ff cf       	rjmp	.-2      	; 0x2a0 <__stop_program>

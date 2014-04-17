@@ -116,9 +116,12 @@ void loop(void)
 			button_state = FALSE;
 		}
 	}
+	
+	adc_result = adc_read_iled();
+	
 	if(light_on == TRUE)
 	{
-		adc_result = adc_read_iled();
+		
 		if(adc_result < target_pwm)
 		{
 			OCR1B++;
