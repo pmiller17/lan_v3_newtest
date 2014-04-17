@@ -12,7 +12,7 @@ Paul Miller
 #ifndef DEBOUNCE_H_
 #define DEBOUNCE_H_
 
-#define BUTTON_DELAY_TIME 400		// 8 ms
+#define BUTTON_DELAY_TIME 8000		// 8 ms
 #define BUTTON_IGNORE_TIME 7000		// 140 ms
 
 #define JACK_DELAY_TIME 400			// 8 ms

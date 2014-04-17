@@ -14,11 +14,14 @@
 #include "adc.h"
 #include "debounce.h"
 
-int test_variable = FALSE;
+
+int target_pwm = 0;
 int adc_result = 0;
 volatile int needs_debounce = FALSE;
-volatile int button_state = 0;
-volatile int light_on = FALSE;
+int button_state = 0;
+int light_on = FALSE;
+static int glitch_counter = 0;
+
 int main(void)
 {
     setup();
@@ -88,11 +91,13 @@ void loop(void)
 {
 
 
+	
 	if(needs_debounce)
 	{
 		button_state = debounce_button();
 		needs_debounce = FALSE;
 	}
+
 	//target 102
 	
 	if(button_state == TRUE)
@@ -106,24 +111,36 @@ void loop(void)
 		
 		else
 		{
-			OCR1B = 60;
+			target_pwm = 61;
 			light_on = TRUE;
 			button_state = FALSE;
 		}
 	}
-	
-	//	adc_result = adc_read_iled();
-
-	adc_result = adc_read_iled();
-
+	if(light_on == TRUE)
+	{
+		adc_result = adc_read_iled();
+		if(adc_result < target_pwm)
+		{
+			OCR1B++;
+		}
+		else if(adc_result > target_pwm)
+		{
+			OCR1B--;
+		}
+	}
 }
 
 ISR(PCINT_vect)
 {
-	BUTTON_PCI_DISABLE;
+
 	if(BUTTON_PRESSED_NOW)
 	{
 		needs_debounce = TRUE;
 	}
 	
+}
+
+ISR(ADC_vect)
+{
+	;
 }
