@@ -10,14 +10,16 @@
 #include <avr/interrupt.h>
 */
 
+#define LIGHTING_MODE 0
+
 #include "lan.h"
 #include "adc.h"
 #include "debounce.h"
-
+#include <avr/sleep.h>
 
 int target_pwm = 0;
 int adc_result = 0;
-volatile int needs_debounce = FALSE;
+volatile int button_needs_debounce = FALSE;
 int button_state = 0;
 int light_on = FALSE;
 static int glitch_counter = 0;
@@ -85,36 +87,53 @@ void setup(void)
 	FPWM_CLR_COMP_MATCH;
 	TURN_ON_PWM_CLK;
 	
+	set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+	sleep_enable();
+	
     sei();
 }
 void loop(void) 
 {
 
+if(jack_needs_debounce)
+{
+	jack_plugged_in = debounce_jack();
+	jack_needs_debouce = FALSE;
+}
 
-	
-	if(needs_debounce)
+
+#if LIGHTING_MODE	
+	if(button_needs_debounce)
 	{
 		button_state = debounce_button();
-		needs_debounce = FALSE;
+		button_needs_debounce = FALSE;
+		
 	}
 
 	//target 102
 	
 	if(button_state == TRUE)
 	{
+		cli();
 		if(light_on == TRUE)
 		{
 			OCR1B = 0;
 			light_on = FALSE;
 			button_state = FALSE;
+			sleep_enable();
+			sleep_cpu();
 		}
 		
 		else
 		{
+			sleep_disable();
+			TURN_ON_PWM_CLK;
+			FPWM_CLR_COMP_MATCH;
 			target_pwm = 81;
 			light_on = TRUE;
 			button_state = FALSE;
 		}
+		sei();
 	}
 	
 	adc_result = adc_read_iled();
@@ -131,16 +150,22 @@ void loop(void)
 			OCR1B--;
 		}
 	}
+#endif
 }
 
 ISR(PCINT_vect)
 {
-
+	sleep_disable();
 	if(BUTTON_PRESSED_NOW)
 	{
-		needs_debounce = TRUE;
+		
+		button_needs_debounce = TRUE;
 	}
 	
+	if(JACK_PLUGGED_IN_NOW)
+	{
+		jack_needs_debounce = TRUE;
+	}
 }
 
 ISR(ADC_vect)

@@ -3,33 +3,33 @@ lan_v3_newtest.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000002a2  00000000  00000000  00000094  2**1
+  0 .text         000002e6  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  000002a2  00000336  2**0
+  1 .data         00000000  00800060  000002e6  0000037a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          0000000a  00800060  00800060  00000336  2**0
+  2 .bss          0000000a  00800060  00800060  0000037a  2**0
                   ALLOC
-  3 .stab         000006cc  00000000  00000000  00000338  2**2
+  3 .stab         000006cc  00000000  00000000  0000037c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      00000097  00000000  00000000  00000a04  2**0
+  4 .stabstr      00000097  00000000  00000000  00000a48  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .comment      0000002f  00000000  00000000  00000a9b  2**0
+  5 .comment      0000002f  00000000  00000000  00000adf  2**0
                   CONTENTS, READONLY
-  6 .debug_aranges 00000090  00000000  00000000  00000aca  2**0
+  6 .debug_aranges 00000090  00000000  00000000  00000b0e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   0000032c  00000000  00000000  00000b5a  2**0
+  7 .debug_info   0000032c  00000000  00000000  00000b9e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 000001c2  00000000  00000000  00000e86  2**0
+  8 .debug_abbrev 000001c2  00000000  00000000  00000eca  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   0000034e  00000000  00000000  00001048  2**0
+  9 .debug_line   00000358  00000000  00000000  0000108c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_frame  0000010c  00000000  00000000  00001398  2**2
+ 10 .debug_frame  0000010c  00000000  00000000  000013e4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    000001bd  00000000  00000000  000014a4  2**0
+ 11 .debug_str    000001bd  00000000  00000000  000014f0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    000001f0  00000000  00000000  00001661  2**0
+ 12 .debug_loc    000001f0  00000000  00000000  000016ad  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 00000060  00000000  00000000  00001851  2**0
+ 13 .debug_ranges 00000060  00000000  00000000  0000189d  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -37,7 +37,7 @@ Disassembly of section .text:
 00000000 <__vectors>:
    0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
    2:	21 c0       	rjmp	.+66     	; 0x46 <__bad_interrupt>
-   4:	2c c1       	rjmp	.+600    	; 0x25e <__vector_2>
+   4:	4b c1       	rjmp	.+662    	; 0x29c <__vector_2>
    6:	1f c0       	rjmp	.+62     	; 0x46 <__bad_interrupt>
    8:	1e c0       	rjmp	.+60     	; 0x46 <__bad_interrupt>
    a:	1d c0       	rjmp	.+58     	; 0x46 <__bad_interrupt>
@@ -46,7 +46,7 @@ Disassembly of section .text:
   10:	1a c0       	rjmp	.+52     	; 0x46 <__bad_interrupt>
   12:	19 c0       	rjmp	.+50     	; 0x46 <__bad_interrupt>
   14:	18 c0       	rjmp	.+48     	; 0x46 <__bad_interrupt>
-  16:	39 c1       	rjmp	.+626    	; 0x28a <__vector_11>
+  16:	5b c1       	rjmp	.+694    	; 0x2ce <__vector_11>
   18:	16 c0       	rjmp	.+44     	; 0x46 <__bad_interrupt>
   1a:	15 c0       	rjmp	.+42     	; 0x46 <__bad_interrupt>
   1c:	14 c0       	rjmp	.+40     	; 0x46 <__bad_interrupt>
@@ -76,8 +76,8 @@ Disassembly of section .text:
   3c:	aa 36       	cpi	r26, 0x6A	; 106
   3e:	b2 07       	cpc	r27, r18
   40:	e1 f7       	brne	.-8      	; 0x3a <.do_clear_bss_loop>
-  42:	0a d1       	rcall	.+532    	; 0x258 <main>
-  44:	2c c1       	rjmp	.+600    	; 0x29e <_exit>
+  42:	29 d1       	rcall	.+594    	; 0x296 <main>
+  44:	4e c1       	rjmp	.+668    	; 0x2e2 <_exit>
 
 00000046 <__bad_interrupt>:
   46:	dc cf       	rjmp	.-72     	; 0x0 <__vectors>
@@ -404,178 +404,224 @@ void setup(void)
  1aa:	81 60       	ori	r24, 0x01	; 1
  1ac:	8f bd       	out	0x2f, r24	; 47
 	
+	set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+ 1ae:	85 b7       	in	r24, 0x35	; 53
+ 1b0:	87 7e       	andi	r24, 0xE7	; 231
+ 1b2:	80 61       	ori	r24, 0x10	; 16
+ 1b4:	85 bf       	out	0x35, r24	; 53
+	sleep_enable();
+ 1b6:	85 b7       	in	r24, 0x35	; 53
+ 1b8:	80 62       	ori	r24, 0x20	; 32
+ 1ba:	85 bf       	out	0x35, r24	; 53
+	
     sei();
- 1ae:	78 94       	sei
- 1b0:	08 95       	ret
+ 1bc:	78 94       	sei
+ 1be:	08 95       	ret
 
-000001b2 <loop>:
+000001c0 <loop>:
 void loop(void) 
 {
 
 
 	
 	if(needs_debounce)
- 1b2:	80 91 64 00 	lds	r24, 0x0064
- 1b6:	90 91 65 00 	lds	r25, 0x0065
- 1ba:	89 2b       	or	r24, r25
- 1bc:	49 f0       	breq	.+18     	; 0x1d0 <loop+0x1e>
+ 1c0:	80 91 64 00 	lds	r24, 0x0064
+ 1c4:	90 91 65 00 	lds	r25, 0x0065
+ 1c8:	89 2b       	or	r24, r25
+ 1ca:	49 f0       	breq	.+18     	; 0x1de <loop+0x1e>
 	{
 		button_state = debounce_button();
- 1be:	50 df       	rcall	.-352    	; 0x60 <debounce_button>
- 1c0:	90 93 63 00 	sts	0x0063, r25
- 1c4:	80 93 62 00 	sts	0x0062, r24
+ 1cc:	49 df       	rcall	.-366    	; 0x60 <debounce_button>
+ 1ce:	90 93 63 00 	sts	0x0063, r25
+ 1d2:	80 93 62 00 	sts	0x0062, r24
 		needs_debounce = FALSE;
- 1c8:	10 92 65 00 	sts	0x0065, r1
- 1cc:	10 92 64 00 	sts	0x0064, r1
+ 1d6:	10 92 65 00 	sts	0x0065, r1
+ 1da:	10 92 64 00 	sts	0x0064, r1
+		
 	}
 
 	//target 102
 	
 	if(button_state == TRUE)
- 1d0:	80 91 62 00 	lds	r24, 0x0062
- 1d4:	90 91 63 00 	lds	r25, 0x0063
- 1d8:	01 97       	sbiw	r24, 0x01	; 1
- 1da:	01 f5       	brne	.+64     	; 0x21c <loop+0x6a>
+ 1de:	80 91 62 00 	lds	r24, 0x0062
+ 1e2:	90 91 63 00 	lds	r25, 0x0063
+ 1e6:	01 97       	sbiw	r24, 0x01	; 1
+ 1e8:	c1 f5       	brne	.+112    	; 0x25a <loop+0x9a>
 	{
+		cli();
+ 1ea:	f8 94       	cli
 		if(light_on == TRUE)
- 1dc:	80 91 60 00 	lds	r24, 0x0060
- 1e0:	90 91 61 00 	lds	r25, 0x0061
- 1e4:	01 97       	sbiw	r24, 0x01	; 1
- 1e6:	51 f4       	brne	.+20     	; 0x1fc <loop+0x4a>
+ 1ec:	80 91 60 00 	lds	r24, 0x0060
+ 1f0:	90 91 61 00 	lds	r25, 0x0061
+ 1f4:	01 97       	sbiw	r24, 0x01	; 1
+ 1f6:	71 f4       	brne	.+28     	; 0x214 <loop+0x54>
 		{
 			OCR1B = 0;
- 1e8:	1c bc       	out	0x2c, r1	; 44
+ 1f8:	1c bc       	out	0x2c, r1	; 44
 			light_on = FALSE;
- 1ea:	10 92 61 00 	sts	0x0061, r1
- 1ee:	10 92 60 00 	sts	0x0060, r1
+ 1fa:	10 92 61 00 	sts	0x0061, r1
+ 1fe:	10 92 60 00 	sts	0x0060, r1
 			button_state = FALSE;
- 1f2:	10 92 63 00 	sts	0x0063, r1
- 1f6:	10 92 62 00 	sts	0x0062, r1
- 1fa:	10 c0       	rjmp	.+32     	; 0x21c <loop+0x6a>
+ 202:	10 92 63 00 	sts	0x0063, r1
+ 206:	10 92 62 00 	sts	0x0062, r1
+			sleep_enable();
+ 20a:	85 b7       	in	r24, 0x35	; 53
+ 20c:	80 62       	ori	r24, 0x20	; 32
+ 20e:	85 bf       	out	0x35, r24	; 53
+			sleep_cpu();
+ 210:	88 95       	sleep
+ 212:	22 c0       	rjmp	.+68     	; 0x258 <loop+0x98>
 		}
 		
 		else
 		{
+			sleep_disable();
+ 214:	85 b7       	in	r24, 0x35	; 53
+ 216:	8f 7d       	andi	r24, 0xDF	; 223
+ 218:	85 bf       	out	0x35, r24	; 53
+			TURN_ON_PWM_CLK;
+ 21a:	8f b5       	in	r24, 0x2f	; 47
+ 21c:	87 7f       	andi	r24, 0xF7	; 247
+ 21e:	8f bd       	out	0x2f, r24	; 47
+ 220:	8f b5       	in	r24, 0x2f	; 47
+ 222:	8b 7f       	andi	r24, 0xFB	; 251
+ 224:	8f bd       	out	0x2f, r24	; 47
+ 226:	8f b5       	in	r24, 0x2f	; 47
+ 228:	82 60       	ori	r24, 0x02	; 2
+ 22a:	8f bd       	out	0x2f, r24	; 47
+ 22c:	8f b5       	in	r24, 0x2f	; 47
+ 22e:	81 60       	ori	r24, 0x01	; 1
+ 230:	8f bd       	out	0x2f, r24	; 47
+			FPWM_CLR_COMP_MATCH;
+ 232:	80 b7       	in	r24, 0x30	; 48
+ 234:	80 62       	ori	r24, 0x20	; 32
+ 236:	80 bf       	out	0x30, r24	; 48
 			target_pwm = 81;
- 1fc:	81 e5       	ldi	r24, 0x51	; 81
- 1fe:	90 e0       	ldi	r25, 0x00	; 0
- 200:	90 93 69 00 	sts	0x0069, r25
- 204:	80 93 68 00 	sts	0x0068, r24
+ 238:	81 e5       	ldi	r24, 0x51	; 81
+ 23a:	90 e0       	ldi	r25, 0x00	; 0
+ 23c:	90 93 69 00 	sts	0x0069, r25
+ 240:	80 93 68 00 	sts	0x0068, r24
 			light_on = TRUE;
- 208:	81 e0       	ldi	r24, 0x01	; 1
- 20a:	90 e0       	ldi	r25, 0x00	; 0
- 20c:	90 93 61 00 	sts	0x0061, r25
- 210:	80 93 60 00 	sts	0x0060, r24
+ 244:	81 e0       	ldi	r24, 0x01	; 1
+ 246:	90 e0       	ldi	r25, 0x00	; 0
+ 248:	90 93 61 00 	sts	0x0061, r25
+ 24c:	80 93 60 00 	sts	0x0060, r24
 			button_state = FALSE;
- 214:	10 92 63 00 	sts	0x0063, r1
- 218:	10 92 62 00 	sts	0x0062, r1
+ 250:	10 92 63 00 	sts	0x0063, r1
+ 254:	10 92 62 00 	sts	0x0062, r1
 		}
+		sei();
+ 258:	78 94       	sei
 	}
 	
 	adc_result = adc_read_iled();
- 21c:	15 df       	rcall	.-470    	; 0x48 <adc_read_iled>
- 21e:	90 93 67 00 	sts	0x0067, r25
- 222:	80 93 66 00 	sts	0x0066, r24
+ 25a:	f6 de       	rcall	.-532    	; 0x48 <adc_read_iled>
+ 25c:	90 93 67 00 	sts	0x0067, r25
+ 260:	80 93 66 00 	sts	0x0066, r24
 	
 	if(light_on == TRUE)
- 226:	20 91 60 00 	lds	r18, 0x0060
- 22a:	30 91 61 00 	lds	r19, 0x0061
- 22e:	21 30       	cpi	r18, 0x01	; 1
- 230:	31 05       	cpc	r19, r1
- 232:	89 f4       	brne	.+34     	; 0x256 <loop+0xa4>
+ 264:	20 91 60 00 	lds	r18, 0x0060
+ 268:	30 91 61 00 	lds	r19, 0x0061
+ 26c:	21 30       	cpi	r18, 0x01	; 1
+ 26e:	31 05       	cpc	r19, r1
+ 270:	89 f4       	brne	.+34     	; 0x294 <loop+0xd4>
 	{
 		
 		if(adc_result < target_pwm)
- 234:	20 91 68 00 	lds	r18, 0x0068
- 238:	30 91 69 00 	lds	r19, 0x0069
- 23c:	82 17       	cp	r24, r18
- 23e:	93 07       	cpc	r25, r19
- 240:	24 f4       	brge	.+8      	; 0x24a <loop+0x98>
+ 272:	20 91 68 00 	lds	r18, 0x0068
+ 276:	30 91 69 00 	lds	r19, 0x0069
+ 27a:	82 17       	cp	r24, r18
+ 27c:	93 07       	cpc	r25, r19
+ 27e:	24 f4       	brge	.+8      	; 0x288 <loop+0xc8>
 		{
 			OCR1B++;
- 242:	8c b5       	in	r24, 0x2c	; 44
- 244:	8f 5f       	subi	r24, 0xFF	; 255
- 246:	8c bd       	out	0x2c, r24	; 44
- 248:	08 95       	ret
+ 280:	8c b5       	in	r24, 0x2c	; 44
+ 282:	8f 5f       	subi	r24, 0xFF	; 255
+ 284:	8c bd       	out	0x2c, r24	; 44
+ 286:	08 95       	ret
 		}
 		else if(adc_result > target_pwm)
- 24a:	28 17       	cp	r18, r24
- 24c:	39 07       	cpc	r19, r25
- 24e:	1c f4       	brge	.+6      	; 0x256 <loop+0xa4>
+ 288:	28 17       	cp	r18, r24
+ 28a:	39 07       	cpc	r19, r25
+ 28c:	1c f4       	brge	.+6      	; 0x294 <loop+0xd4>
 		{
 			OCR1B--;
- 250:	8c b5       	in	r24, 0x2c	; 44
- 252:	81 50       	subi	r24, 0x01	; 1
- 254:	8c bd       	out	0x2c, r24	; 44
- 256:	08 95       	ret
+ 28e:	8c b5       	in	r24, 0x2c	; 44
+ 290:	81 50       	subi	r24, 0x01	; 1
+ 292:	8c bd       	out	0x2c, r24	; 44
+ 294:	08 95       	ret
 
-00000258 <main>:
+00000296 <main>:
 int light_on = FALSE;
 static int glitch_counter = 0;
 
 int main(void)
 {
     setup();
- 258:	40 df       	rcall	.-384    	; 0xda <setup>
+ 296:	21 df       	rcall	.-446    	; 0xda <setup>
 	for (;;) 
 	{
 		loop();
- 25a:	ab df       	rcall	.-170    	; 0x1b2 <loop>
- 25c:	fe cf       	rjmp	.-4      	; 0x25a <main+0x2>
+ 298:	93 df       	rcall	.-218    	; 0x1c0 <loop>
+ 29a:	fe cf       	rjmp	.-4      	; 0x298 <main+0x2>
 
-0000025e <__vector_2>:
+0000029c <__vector_2>:
 		}
 	}
 }
 
 ISR(PCINT_vect)
 {
- 25e:	1f 92       	push	r1
- 260:	0f 92       	push	r0
- 262:	0f b6       	in	r0, 0x3f	; 63
- 264:	0f 92       	push	r0
- 266:	11 24       	eor	r1, r1
- 268:	8f 93       	push	r24
- 26a:	9f 93       	push	r25
-
+ 29c:	1f 92       	push	r1
+ 29e:	0f 92       	push	r0
+ 2a0:	0f b6       	in	r0, 0x3f	; 63
+ 2a2:	0f 92       	push	r0
+ 2a4:	11 24       	eor	r1, r1
+ 2a6:	8f 93       	push	r24
+ 2a8:	9f 93       	push	r25
+	sleep_disable();
+ 2aa:	85 b7       	in	r24, 0x35	; 53
+ 2ac:	8f 7d       	andi	r24, 0xDF	; 223
+ 2ae:	85 bf       	out	0x35, r24	; 53
 	if(BUTTON_PRESSED_NOW)
- 26c:	b0 99       	sbic	0x16, 0	; 22
- 26e:	06 c0       	rjmp	.+12     	; 0x27c <__vector_2+0x1e>
+ 2b0:	b0 99       	sbic	0x16, 0	; 22
+ 2b2:	06 c0       	rjmp	.+12     	; 0x2c0 <__vector_2+0x24>
 	{
+		
 		needs_debounce = TRUE;
- 270:	81 e0       	ldi	r24, 0x01	; 1
- 272:	90 e0       	ldi	r25, 0x00	; 0
- 274:	90 93 65 00 	sts	0x0065, r25
- 278:	80 93 64 00 	sts	0x0064, r24
+ 2b4:	81 e0       	ldi	r24, 0x01	; 1
+ 2b6:	90 e0       	ldi	r25, 0x00	; 0
+ 2b8:	90 93 65 00 	sts	0x0065, r25
+ 2bc:	80 93 64 00 	sts	0x0064, r24
 	}
 	
 }
- 27c:	9f 91       	pop	r25
- 27e:	8f 91       	pop	r24
- 280:	0f 90       	pop	r0
- 282:	0f be       	out	0x3f, r0	; 63
- 284:	0f 90       	pop	r0
- 286:	1f 90       	pop	r1
- 288:	18 95       	reti
+ 2c0:	9f 91       	pop	r25
+ 2c2:	8f 91       	pop	r24
+ 2c4:	0f 90       	pop	r0
+ 2c6:	0f be       	out	0x3f, r0	; 63
+ 2c8:	0f 90       	pop	r0
+ 2ca:	1f 90       	pop	r1
+ 2cc:	18 95       	reti
 
-0000028a <__vector_11>:
+000002ce <__vector_11>:
 
 ISR(ADC_vect)
 {
- 28a:	1f 92       	push	r1
- 28c:	0f 92       	push	r0
- 28e:	0f b6       	in	r0, 0x3f	; 63
- 290:	0f 92       	push	r0
- 292:	11 24       	eor	r1, r1
+ 2ce:	1f 92       	push	r1
+ 2d0:	0f 92       	push	r0
+ 2d2:	0f b6       	in	r0, 0x3f	; 63
+ 2d4:	0f 92       	push	r0
+ 2d6:	11 24       	eor	r1, r1
 	;
- 294:	0f 90       	pop	r0
- 296:	0f be       	out	0x3f, r0	; 63
- 298:	0f 90       	pop	r0
- 29a:	1f 90       	pop	r1
- 29c:	18 95       	reti
+ 2d8:	0f 90       	pop	r0
+ 2da:	0f be       	out	0x3f, r0	; 63
+ 2dc:	0f 90       	pop	r0
+ 2de:	1f 90       	pop	r1
+ 2e0:	18 95       	reti
 
-0000029e <_exit>:
- 29e:	f8 94       	cli
+000002e2 <_exit>:
+ 2e2:	f8 94       	cli
 
-000002a0 <__stop_program>:
- 2a0:	ff cf       	rjmp	.-2      	; 0x2a0 <__stop_program>
+000002e4 <__stop_program>:
+ 2e4:	ff cf       	rjmp	.-2      	; 0x2e4 <__stop_program>
