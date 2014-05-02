@@ -59,6 +59,14 @@ void loop(void);
     }                                   \
     while (0)
 
+#define CFG_IO_JACK						\
+	do									\
+	{									\
+		CLRBIT(DDRB,JACK_PIN);			\
+		CLRBIT(PORTB,JACK_PIN);			\
+	}									\
+	while (0);
+	
 #define CFG_IO_LED_ENABLE               \
     do                                  \
     {                                   \
@@ -211,26 +219,36 @@ void loop(void);
     }                                   \
     while(0)
 
-#define JACK_PLUGGED_IN_NOW 0
-#define JACK_PCI_ENABLE
+
+#define JACK_PCI_ENABLE					\
+	do									\
+	{									\
+		SETBIT(PCMSK1,PCINT12);			\
+	}									\
+	while(0)
+
+#define JACK_PCI_DISABLE				\
+	do									\
+	{									\
+		CLRBIT(PCMSK1,PCINT12);			\
+	}									\
+	while(0)
 //=========================================================
 // MACRO FOR IF-STATEMENT ARGUMENT
 //---------------------------------------------------------
 
 #define BUTTON_PRESSED_NOW  (CHKBIT(PINB,BUTTON_PIN) == 0)
+#define JACK_PLUGGED_IN_NOW (CHKBIT(PINB,JACK_PIN) == 1)
 
 //=========================================================
 // STRUCTURE DEFINITIONS
 //---------------------------------------------------------
-typedef struct 
-{
-    unsigned char sleep       : 1;
-    unsigned char debounce    : 1;
-    unsigned char cycle_led   : 1;
-} lantern_tasks_flags_t;
+
 
 typedef enum
 {
-    NORMAL,
-    SLEEP
+    LIGHTING,
+    CHARGING,
+	SAFE_OFF,
+	NEEDS_CHARGE
 } lantern_op_mode_t;

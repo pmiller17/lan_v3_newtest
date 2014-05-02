@@ -15,17 +15,15 @@
 #define BULK_CURRENT
 #define TAPER_CURRENT
 
-
 void charge_battery(void);
+void initialize_charge(void);
 
 typedef enum
 {
-	SETUP,
 	CONSTANT_CURRENT,
 	CONSTANT_VOLTAGE,
 	DONE_CHARGING
 	} charging_mode_t;
-
 
 
 #endif /* CHARGING_ROUGH_H_ */
