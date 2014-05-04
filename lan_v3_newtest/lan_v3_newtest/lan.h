@@ -1,3 +1,6 @@
+#ifndef LAN_H_
+#define LAN_H_
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
@@ -252,3 +255,5 @@ typedef enum
 	SAFE_OFF,
 	NEEDS_CHARGE
 } lantern_op_mode_t;
+
+#endif

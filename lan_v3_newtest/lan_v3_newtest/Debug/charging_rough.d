@@ -1,4 +1,4 @@
-lan_v3_newtest.d lan_v3_newtest.o: .././lan_v3_newtest.c .././lan.h \
+charging_rough.d charging_rough.o: .././charging_rough.c .././lan.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.2.1002\avr8-gnu-toolchain\bin\../lib/gcc/avr/4.7.2/../../../../avr/include/avr/io.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.2.1002\avr8-gnu-toolchain\bin\../lib/gcc/avr/4.7.2/../../../../avr/include/avr/sfr_defs.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.2.1002\avr8-gnu-toolchain\bin\../lib/gcc/avr/4.7.2/../../../../avr/include/inttypes.h \
@@ -11,8 +11,7 @@ lan_v3_newtest.d lan_v3_newtest.o: .././lan_v3_newtest.c .././lan.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.2.1002\avr8-gnu-toolchain\bin\../lib/gcc/avr/4.7.2/../../../../avr/include/avr/fuse.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.2.1002\avr8-gnu-toolchain\bin\../lib/gcc/avr/4.7.2/../../../../avr/include/avr/lock.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.2.1002\avr8-gnu-toolchain\bin\../lib/gcc/avr/4.7.2/../../../../avr/include/avr/interrupt.h \
- .././adc.h .././debounce.h .././charging_rough.h \
- c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.2.1002\avr8-gnu-toolchain\bin\../lib/gcc/avr/4.7.2/../../../../avr/include/avr/sleep.h
+ .././adc.h .././charging_rough.h
 
 .././lan.h:
 
@@ -42,8 +41,4 @@ c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.2.1002\avr8-gnu-to
 
 .././adc.h:
 
-.././debounce.h:
-
 .././charging_rough.h:
-
-c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.2.1002\avr8-gnu-toolchain\bin\../lib/gcc/avr/4.7.2/../../../../avr/include/avr/sleep.h:

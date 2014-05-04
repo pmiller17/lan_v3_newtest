@@ -9,11 +9,10 @@
 #include "adc.h"
 #include "charging_rough.h"
 
-charging_mode_t charging_mode = CHARGE_SETUP;
+charging_mode_t charging_mode;
 unsigned long int overvoltage_thresh_count;
-unsigned int stop_charging;
 unsigned long int enough_bulk_current_counter = 0;
-unsigned int bulk_charge_reached = 0;
+unsigned int bulk_charge_reached = FALSE;
 unsigned long int trickle_charge = 0;
 unsigned long int not_enough_volts = 0;
 unsigned int go_back_bulk = 0;
@@ -23,7 +22,13 @@ void initialize_charge(void)
 {
 	overvoltage_thresh_count = 0;
 	enough_bulk_current_counter = 0;
-	bulk_charge_reached = 0;
+	bulk_charge_reached = FALSE;
+	trickle_charge = 0;
+	not_enough_volts = 0;
+	go_back_bulk = FALSE;
+	current_offset = 0;
+	
+	charging_mode = CONSTANT_CURRENT;
 			
 	ADC_ENABLE;
 	ADC_ISR_ENABLE;
@@ -31,7 +36,7 @@ void initialize_charge(void)
 	TURN_ON_PWM_CLK;
 }
 
-void charge_batt(void)
+void charge_battery(void)
 {
 	
 	static int battery_current = 0;
@@ -41,7 +46,11 @@ void charge_batt(void)
 	{
 
 		case CONSTANT_CURRENT:
-		
+			
+			battery_current = adc_read_ibatt();
+			battery_voltage = adc_read_vbatt();
+			current_offset = battery_current/32;
+			
 			if(battery_current < 242)
 			{
 				OCR1B++;
@@ -64,9 +73,6 @@ void charge_batt(void)
 			{
 				enough_bulk_current_counter = 0;
 			}
-		
-			current_offset = battery_current/32;
-			battery_voltage = adc_read_vbatt();
 			
 			if(bulk_charge_reached == TRUE)
 			{
@@ -89,7 +95,11 @@ void charge_batt(void)
 		break;
 
 		case CONSTANT_VOLTAGE:
-		
+			
+			battery_voltage = adc_read_vbatt();
+			battery_current = adc_read_ibatt();
+			current_offset = battery_current/32;
+			
 			if(battery_voltage - current_offset > 220)
 			{
 				OCR1B -= 1;
@@ -130,61 +140,38 @@ void charge_batt(void)
 				go_back_bulk = 0;
 			}	
 		
+			if(battery_current < 10)
+			{
+				trickle_charge++;
+			}
 		
-			case CONST_VOLTAGE_IREAD:
+			if(battery_current > 30)
+			{
+				trickle_charge = 0;
+			}
 		
-		adc_reading_mode = READ_IBATT;
-		CFG_ADC_IBATT_GAIN_32;
-		
-		still_taking_readings = 1;
-		while(still_taking_readings)
-		{
-			ADC_TRIGGER_MEASUREMENT;
-		}
-		
-		current_offset = ibatt_adc_conversion/32;
-		
-		if(ibatt_adc_conversion < 10)
-		{
-			trickle_charge++;
-		}
-		
-		if(ibatt_adc_conversion > 30)
-		{
-			trickle_charge = 0;
-		}
-		
-		if(trickle_charge >= 2000)
-		{
-			charging_mode = TRICKLE_CHARGE;
-		}
-		else charging_mode = CONST_VOLTAGE_VREAD;
+			if(trickle_charge >= 2000)
+			{
+				charging_mode = TRICKLE_CHARGE;
+			}
 		
 		break;
 		
 		case TRICKLE_CHARGE:
-		adc_reading_mode = READ_VBATT;
-		CFG_ADC_VBATT_GAIN_1;
-		//		ADC_TRIGGER_MEASUREMENT;	//garbage reading
-		//		ADC_TRIGGER_MEASUREMENT;
-		
-		still_taking_readings = 1;
-		while(still_taking_readings)
-		{
-			ADC_TRIGGER_MEASUREMENT;
-		}
-		
-		if(vbatt_adc_conversion - current_offset > 220)
-		{
-			OCR1B -= 1;
 			
-		}
-		
-		else if(vbatt_adc_conversion - current_offset < 220)
-		{
-			OCR1B += 3;
+			battery_voltage = adc_read_vbatt();
+			current_offset = adc_read_ibatt();
+			current_offset = current_offset/32;
 			
-		}
+			if(battery_voltage - current_offset > 220)
+			{
+				OCR1B -= 1;
+			}
+		
+			else if(battery_voltage - current_offset < 220)
+			{
+				OCR1B += 3;		
+			}
 		
 		break;
 	}

@@ -22,7 +22,7 @@ typedef enum
 {
 	CONSTANT_CURRENT,
 	CONSTANT_VOLTAGE,
-	DONE_CHARGING
+	TRICKLE_CHARGE
 	} charging_mode_t;
 
 

@@ -3,33 +3,33 @@ lan_v3_newtest.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000002e6  00000000  00000000  00000094  2**1
+  0 .text         000005e0  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  000002e6  0000037a  2**0
+  1 .data         00000000  00800060  000005e0  00000674  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          0000000a  00800060  00800060  0000037a  2**0
+  2 .bss          00000020  00800060  00800060  00000674  2**0
                   ALLOC
-  3 .stab         000006cc  00000000  00000000  0000037c  2**2
+  3 .stab         000006cc  00000000  00000000  00000674  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      00000097  00000000  00000000  00000a48  2**0
+  4 .stabstr      00000097  00000000  00000000  00000d40  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .comment      0000002f  00000000  00000000  00000adf  2**0
+  5 .comment      0000002f  00000000  00000000  00000dd7  2**0
                   CONTENTS, READONLY
-  6 .debug_aranges 00000090  00000000  00000000  00000b0e  2**0
+  6 .debug_aranges 000000c0  00000000  00000000  00000e06  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   0000032c  00000000  00000000  00000b9e  2**0
+  7 .debug_info   00000574  00000000  00000000  00000ec6  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 000001c2  00000000  00000000  00000eca  2**0
+  8 .debug_abbrev 000002a6  00000000  00000000  0000143a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   00000358  00000000  00000000  0000108c  2**0
+  9 .debug_line   000004c1  00000000  00000000  000016e0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_frame  0000010c  00000000  00000000  000013e4  2**2
+ 10 .debug_frame  00000150  00000000  00000000  00001ba4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    000001bd  00000000  00000000  000014f0  2**0
+ 11 .debug_str    00000358  00000000  00000000  00001cf4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    000001f0  00000000  00000000  000016ad  2**0
+ 12 .debug_loc    000001f0  00000000  00000000  0000204c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 00000060  00000000  00000000  0000189d  2**0
+ 13 .debug_ranges 00000080  00000000  00000000  0000223c  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -37,7 +37,7 @@ Disassembly of section .text:
 00000000 <__vectors>:
    0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
    2:	21 c0       	rjmp	.+66     	; 0x46 <__bad_interrupt>
-   4:	4b c1       	rjmp	.+662    	; 0x29c <__vector_2>
+   4:	cb c2       	rjmp	.+1430   	; 0x59c <__vector_2>
    6:	1f c0       	rjmp	.+62     	; 0x46 <__bad_interrupt>
    8:	1e c0       	rjmp	.+60     	; 0x46 <__bad_interrupt>
    a:	1d c0       	rjmp	.+58     	; 0x46 <__bad_interrupt>
@@ -46,7 +46,7 @@ Disassembly of section .text:
   10:	1a c0       	rjmp	.+52     	; 0x46 <__bad_interrupt>
   12:	19 c0       	rjmp	.+50     	; 0x46 <__bad_interrupt>
   14:	18 c0       	rjmp	.+48     	; 0x46 <__bad_interrupt>
-  16:	5b c1       	rjmp	.+694    	; 0x2ce <__vector_11>
+  16:	d8 c2       	rjmp	.+1456   	; 0x5c8 <__vector_11>
   18:	16 c0       	rjmp	.+44     	; 0x46 <__bad_interrupt>
   1a:	15 c0       	rjmp	.+42     	; 0x46 <__bad_interrupt>
   1c:	14 c0       	rjmp	.+40     	; 0x46 <__bad_interrupt>
@@ -73,33 +73,32 @@ Disassembly of section .text:
   3a:	1d 92       	st	X+, r1
 
 0000003c <.do_clear_bss_start>:
-  3c:	aa 36       	cpi	r26, 0x6A	; 106
+  3c:	a0 38       	cpi	r26, 0x80	; 128
   3e:	b2 07       	cpc	r27, r18
   40:	e1 f7       	brne	.-8      	; 0x3a <.do_clear_bss_loop>
-  42:	29 d1       	rcall	.+594    	; 0x296 <main>
-  44:	4e c1       	rjmp	.+668    	; 0x2e2 <_exit>
+  42:	a9 d2       	rcall	.+1362   	; 0x596 <main>
+  44:	cb c2       	rjmp	.+1430   	; 0x5dc <_exit>
 
 00000046 <__bad_interrupt>:
   46:	dc cf       	rjmp	.-72     	; 0x0 <__vectors>
 
-00000048 <adc_read_iled>:
-#include "adc.h"
-#include "lan.h"
+00000048 <adc_read_vbatt>:
+	return ADCH;
+}
 
-int adc_read_iled()
+int adc_read_vbatt()
 {
-	CFG_ADC_ILED_GAIN_20;
+	CFG_ADC_VBATT_GAIN_1;
   48:	1b 98       	cbi	0x03, 3	; 3
-  4a:	3c 98       	cbi	0x07, 4	; 7
-  4c:	3b 9a       	sbi	0x07, 3	; 7
-  4e:	3a 9a       	sbi	0x07, 2	; 7
+  4a:	3c 9a       	sbi	0x07, 4	; 7
+  4c:	3b 98       	cbi	0x07, 3	; 7
+  4e:	3a 98       	cbi	0x07, 2	; 7
   50:	39 9a       	sbi	0x07, 1	; 7
-  52:	38 98       	cbi	0x07, 0	; 7
-  54:	1e 9a       	sbi	0x03, 6	; 3
+  52:	38 9a       	sbi	0x07, 0	; 7
+  54:	1e 98       	cbi	0x03, 6	; 3
 	ADC_TRIGGER_MEASUREMENT;
   56:	36 9a       	sbi	0x06, 6	; 6
   58:	86 b1       	in	r24, 0x06	; 6
-//	ADC_TRIGGER_MEASUREMENT;
 	
 	return ADCH;
   5a:	85 b1       	in	r24, 0x05	; 5
@@ -107,521 +106,919 @@ int adc_read_iled()
   5c:	90 e0       	ldi	r25, 0x00	; 0
   5e:	08 95       	ret
 
-00000060 <debounce_button>:
-	JACK_PCI_ENABLE;	//define!
-	return jack_plugged_in;
-}
+00000060 <adc_read_ibatt>:
 
-int debounce_button(void)
+int adc_read_ibatt()
 {
-  60:	cf 93       	push	r28
-  62:	df 93       	push	r29
-  64:	00 d0       	rcall	.+0      	; 0x66 <debounce_button+0x6>
-  66:	cd b7       	in	r28, 0x3d	; 61
-  68:	de b7       	in	r29, 0x3e	; 62
-	int button_pressed = FALSE;
-	volatile int debounce_counter = 0;
-  6a:	1a 82       	std	Y+2, r1	; 0x02
-  6c:	19 82       	std	Y+1, r1	; 0x01
+	CFG_ADC_IBATT_GAIN_32;
+  60:	1b 9a       	sbi	0x03, 3	; 3
+  62:	3c 98       	cbi	0x07, 4	; 7
+  64:	3b 98       	cbi	0x07, 3	; 7
+  66:	3a 98       	cbi	0x07, 2	; 7
+  68:	39 9a       	sbi	0x07, 1	; 7
+  6a:	38 98       	cbi	0x07, 0	; 7
+  6c:	1e 9a       	sbi	0x03, 6	; 3
+	ADC_TRIGGER_MEASUREMENT;
+  6e:	36 9a       	sbi	0x06, 6	; 6
+  70:	86 b1       	in	r24, 0x06	; 6
 	
-	while(debounce_counter < BUTTON_DELAY_TIME)
-  6e:	89 81       	ldd	r24, Y+1	; 0x01
-  70:	9a 81       	ldd	r25, Y+2	; 0x02
-  72:	80 34       	cpi	r24, 0x40	; 64
-  74:	9f 41       	sbci	r25, 0x1F	; 31
-  76:	54 f4       	brge	.+20     	; 0x8c <debounce_button+0x2c>
-	{
-		debounce_counter += 1;
-  78:	89 81       	ldd	r24, Y+1	; 0x01
-  7a:	9a 81       	ldd	r25, Y+2	; 0x02
-  7c:	01 96       	adiw	r24, 0x01	; 1
-  7e:	9a 83       	std	Y+2, r25	; 0x02
-  80:	89 83       	std	Y+1, r24	; 0x01
-int debounce_button(void)
+	return ADCH;
+  72:	85 b1       	in	r24, 0x05	; 5
+  74:	90 e0       	ldi	r25, 0x00	; 0
+  76:	08 95       	ret
+
+00000078 <initialize_charge>:
+unsigned int go_back_bulk = 0;
+unsigned int current_offset = 0;
+
+void initialize_charge(void)
 {
-	int button_pressed = FALSE;
+	overvoltage_thresh_count = 0;
+  78:	10 92 7b 00 	sts	0x007B, r1
+  7c:	10 92 7c 00 	sts	0x007C, r1
+  80:	10 92 7d 00 	sts	0x007D, r1
+  84:	10 92 7e 00 	sts	0x007E, r1
+	enough_bulk_current_counter = 0;
+  88:	10 92 6e 00 	sts	0x006E, r1
+  8c:	10 92 6f 00 	sts	0x006F, r1
+  90:	10 92 70 00 	sts	0x0070, r1
+  94:	10 92 71 00 	sts	0x0071, r1
+	bulk_charge_reached = FALSE;
+  98:	10 92 6d 00 	sts	0x006D, r1
+  9c:	10 92 6c 00 	sts	0x006C, r1
+	trickle_charge = 0;
+  a0:	10 92 68 00 	sts	0x0068, r1
+  a4:	10 92 69 00 	sts	0x0069, r1
+  a8:	10 92 6a 00 	sts	0x006A, r1
+  ac:	10 92 6b 00 	sts	0x006B, r1
+	not_enough_volts = 0;
+  b0:	10 92 64 00 	sts	0x0064, r1
+  b4:	10 92 65 00 	sts	0x0065, r1
+  b8:	10 92 66 00 	sts	0x0066, r1
+  bc:	10 92 67 00 	sts	0x0067, r1
+	go_back_bulk = FALSE;
+  c0:	10 92 63 00 	sts	0x0063, r1
+  c4:	10 92 62 00 	sts	0x0062, r1
+	current_offset = 0;
+  c8:	10 92 61 00 	sts	0x0061, r1
+  cc:	10 92 60 00 	sts	0x0060, r1
+	
+	charging_mode = CONSTANT_CURRENT;
+  d0:	10 92 7f 00 	sts	0x007F, r1
+			
+	ADC_ENABLE;
+  d4:	37 9a       	sbi	0x06, 7	; 6
+	ADC_ISR_ENABLE;
+  d6:	33 9a       	sbi	0x06, 3	; 6
+	FPWM_CLR_COMP_MATCH;
+  d8:	80 b7       	in	r24, 0x30	; 48
+  da:	80 62       	ori	r24, 0x20	; 32
+  dc:	80 bf       	out	0x30, r24	; 48
+	TURN_ON_PWM_CLK;
+  de:	8f b5       	in	r24, 0x2f	; 47
+  e0:	87 7f       	andi	r24, 0xF7	; 247
+  e2:	8f bd       	out	0x2f, r24	; 47
+  e4:	8f b5       	in	r24, 0x2f	; 47
+  e6:	8b 7f       	andi	r24, 0xFB	; 251
+  e8:	8f bd       	out	0x2f, r24	; 47
+  ea:	8f b5       	in	r24, 0x2f	; 47
+  ec:	82 60       	ori	r24, 0x02	; 2
+  ee:	8f bd       	out	0x2f, r24	; 47
+  f0:	8f b5       	in	r24, 0x2f	; 47
+  f2:	81 60       	ori	r24, 0x01	; 1
+  f4:	8f bd       	out	0x2f, r24	; 47
+  f6:	08 95       	ret
+
+000000f8 <charge_battery>:
+{
+	
+	static int battery_current = 0;
+	static int battery_voltage = 0;
+	
+	switch(charging_mode)
+  f8:	80 91 7f 00 	lds	r24, 0x007F
+  fc:	81 30       	cpi	r24, 0x01	; 1
+  fe:	09 f4       	brne	.+2      	; 0x102 <charge_battery+0xa>
+ 100:	a9 c0       	rjmp	.+338    	; 0x254 <__stack+0xf5>
+ 102:	20 f0       	brcs	.+8      	; 0x10c <charge_battery+0x14>
+ 104:	82 30       	cpi	r24, 0x02	; 2
+ 106:	09 f0       	breq	.+2      	; 0x10a <charge_battery+0x12>
+ 108:	84 c1       	rjmp	.+776    	; 0x412 <__stack+0x2b3>
+ 10a:	5d c1       	rjmp	.+698    	; 0x3c6 <__stack+0x267>
+	{
+
+		case CONSTANT_CURRENT:
+			
+			battery_current = adc_read_ibatt();
+ 10c:	a9 df       	rcall	.-174    	; 0x60 <adc_read_ibatt>
+ 10e:	90 93 73 00 	sts	0x0073, r25
+ 112:	80 93 72 00 	sts	0x0072, r24
+			battery_voltage = adc_read_vbatt();
+ 116:	98 df       	rcall	.-208    	; 0x48 <adc_read_vbatt>
+ 118:	90 93 75 00 	sts	0x0075, r25
+ 11c:	80 93 74 00 	sts	0x0074, r24
+			current_offset = battery_current/32;
+ 120:	80 91 72 00 	lds	r24, 0x0072
+ 124:	90 91 73 00 	lds	r25, 0x0073
+ 128:	9c 01       	movw	r18, r24
+ 12a:	99 23       	and	r25, r25
+ 12c:	14 f4       	brge	.+4      	; 0x132 <charge_battery+0x3a>
+ 12e:	21 5e       	subi	r18, 0xE1	; 225
+ 130:	3f 4f       	sbci	r19, 0xFF	; 255
+ 132:	35 95       	asr	r19
+ 134:	27 95       	ror	r18
+ 136:	35 95       	asr	r19
+ 138:	27 95       	ror	r18
+ 13a:	35 95       	asr	r19
+ 13c:	27 95       	ror	r18
+ 13e:	35 95       	asr	r19
+ 140:	27 95       	ror	r18
+ 142:	35 95       	asr	r19
+ 144:	27 95       	ror	r18
+ 146:	30 93 61 00 	sts	0x0061, r19
+ 14a:	20 93 60 00 	sts	0x0060, r18
+			
+			if(battery_current < 242)
+ 14e:	82 3f       	cpi	r24, 0xF2	; 242
+ 150:	91 05       	cpc	r25, r1
+ 152:	24 f4       	brge	.+8      	; 0x15c <charge_battery+0x64>
+			{
+				OCR1B++;
+ 154:	8c b5       	in	r24, 0x2c	; 44
+ 156:	8f 5f       	subi	r24, 0xFF	; 255
+ 158:	8c bd       	out	0x2c, r24	; 44
+ 15a:	06 c0       	rjmp	.+12     	; 0x168 <__stack+0x9>
+			}
+			else if(battery_current > 245)
+ 15c:	86 3f       	cpi	r24, 0xF6	; 246
+ 15e:	91 05       	cpc	r25, r1
+ 160:	1c f0       	brlt	.+6      	; 0x168 <__stack+0x9>
+			{
+				OCR1B--;
+ 162:	8c b5       	in	r24, 0x2c	; 44
+ 164:	81 50       	subi	r24, 0x01	; 1
+ 166:	8c bd       	out	0x2c, r24	; 44
+			}
+		
+			if(battery_current >= 242)
+ 168:	20 91 72 00 	lds	r18, 0x0072
+ 16c:	30 91 73 00 	lds	r19, 0x0073
+ 170:	22 3f       	cpi	r18, 0xF2	; 242
+ 172:	31 05       	cpc	r19, r1
+ 174:	f4 f0       	brlt	.+60     	; 0x1b2 <__stack+0x53>
+			{			
+				enough_bulk_current_counter++;
+ 176:	80 91 6e 00 	lds	r24, 0x006E
+ 17a:	90 91 6f 00 	lds	r25, 0x006F
+ 17e:	a0 91 70 00 	lds	r26, 0x0070
+ 182:	b0 91 71 00 	lds	r27, 0x0071
+ 186:	01 96       	adiw	r24, 0x01	; 1
+ 188:	a1 1d       	adc	r26, r1
+ 18a:	b1 1d       	adc	r27, r1
+ 18c:	80 93 6e 00 	sts	0x006E, r24
+ 190:	90 93 6f 00 	sts	0x006F, r25
+ 194:	a0 93 70 00 	sts	0x0070, r26
+ 198:	b0 93 71 00 	sts	0x0071, r27
+				if(enough_bulk_current_counter > 2000)
+ 19c:	81 3d       	cpi	r24, 0xD1	; 209
+ 19e:	97 40       	sbci	r25, 0x07	; 7
+ 1a0:	a1 05       	cpc	r26, r1
+ 1a2:	b1 05       	cpc	r27, r1
+ 1a4:	30 f0       	brcs	.+12     	; 0x1b2 <__stack+0x53>
+				{
+					bulk_charge_reached = TRUE;
+ 1a6:	81 e0       	ldi	r24, 0x01	; 1
+ 1a8:	90 e0       	ldi	r25, 0x00	; 0
+ 1aa:	90 93 6d 00 	sts	0x006D, r25
+ 1ae:	80 93 6c 00 	sts	0x006C, r24
+				}
+			}
+		
+			if((battery_current < 234) & (battery_current > 0))
+ 1b2:	21 50       	subi	r18, 0x01	; 1
+ 1b4:	31 09       	sbc	r19, r1
+ 1b6:	29 3e       	cpi	r18, 0xE9	; 233
+ 1b8:	31 05       	cpc	r19, r1
+ 1ba:	40 f4       	brcc	.+16     	; 0x1cc <__stack+0x6d>
+			{
+				enough_bulk_current_counter = 0;
+ 1bc:	10 92 6e 00 	sts	0x006E, r1
+ 1c0:	10 92 6f 00 	sts	0x006F, r1
+ 1c4:	10 92 70 00 	sts	0x0070, r1
+ 1c8:	10 92 71 00 	sts	0x0071, r1
+			}
+			
+			if(bulk_charge_reached == TRUE)
+ 1cc:	80 91 6c 00 	lds	r24, 0x006C
+ 1d0:	90 91 6d 00 	lds	r25, 0x006D
+ 1d4:	01 97       	sbiw	r24, 0x01	; 1
+ 1d6:	61 f5       	brne	.+88     	; 0x230 <__stack+0xd1>
+			{
+				if(battery_voltage - current_offset > 220)
+ 1d8:	20 91 74 00 	lds	r18, 0x0074
+ 1dc:	30 91 75 00 	lds	r19, 0x0075
+ 1e0:	80 91 60 00 	lds	r24, 0x0060
+ 1e4:	90 91 61 00 	lds	r25, 0x0061
+ 1e8:	28 1b       	sub	r18, r24
+ 1ea:	39 0b       	sbc	r19, r25
+ 1ec:	2d 3d       	cpi	r18, 0xDD	; 221
+ 1ee:	31 05       	cpc	r19, r1
+ 1f0:	98 f0       	brcs	.+38     	; 0x218 <__stack+0xb9>
+				{
+					overvoltage_thresh_count++;
+ 1f2:	80 91 7b 00 	lds	r24, 0x007B
+ 1f6:	90 91 7c 00 	lds	r25, 0x007C
+ 1fa:	a0 91 7d 00 	lds	r26, 0x007D
+ 1fe:	b0 91 7e 00 	lds	r27, 0x007E
+ 202:	01 96       	adiw	r24, 0x01	; 1
+ 204:	a1 1d       	adc	r26, r1
+ 206:	b1 1d       	adc	r27, r1
+ 208:	80 93 7b 00 	sts	0x007B, r24
+ 20c:	90 93 7c 00 	sts	0x007C, r25
+ 210:	a0 93 7d 00 	sts	0x007D, r26
+ 214:	b0 93 7e 00 	sts	0x007E, r27
+				}
+			
+				if(battery_voltage - current_offset < 220)
+ 218:	2c 3d       	cpi	r18, 0xDC	; 220
+ 21a:	31 05       	cpc	r19, r1
+ 21c:	48 f4       	brcc	.+18     	; 0x230 <__stack+0xd1>
+				{
+					overvoltage_thresh_count = 0;
+ 21e:	10 92 7b 00 	sts	0x007B, r1
+ 222:	10 92 7c 00 	sts	0x007C, r1
+ 226:	10 92 7d 00 	sts	0x007D, r1
+ 22a:	10 92 7e 00 	sts	0x007E, r1
+ 22e:	08 95       	ret
+				}
+			}
+		
+			if(overvoltage_thresh_count >= 2000)
+ 230:	80 91 7b 00 	lds	r24, 0x007B
+ 234:	90 91 7c 00 	lds	r25, 0x007C
+ 238:	a0 91 7d 00 	lds	r26, 0x007D
+ 23c:	b0 91 7e 00 	lds	r27, 0x007E
+ 240:	80 3d       	cpi	r24, 0xD0	; 208
+ 242:	97 40       	sbci	r25, 0x07	; 7
+ 244:	a1 05       	cpc	r26, r1
+ 246:	b1 05       	cpc	r27, r1
+ 248:	08 f4       	brcc	.+2      	; 0x24c <__stack+0xed>
+ 24a:	e3 c0       	rjmp	.+454    	; 0x412 <__stack+0x2b3>
+			{
+				charging_mode = CONSTANT_VOLTAGE;
+ 24c:	81 e0       	ldi	r24, 0x01	; 1
+ 24e:	80 93 7f 00 	sts	0x007F, r24
+ 252:	08 95       	ret
+			
+		break;
+
+		case CONSTANT_VOLTAGE:
+			
+			battery_voltage = adc_read_vbatt();
+ 254:	f9 de       	rcall	.-526    	; 0x48 <adc_read_vbatt>
+ 256:	90 93 75 00 	sts	0x0075, r25
+ 25a:	80 93 74 00 	sts	0x0074, r24
+			battery_current = adc_read_ibatt();
+ 25e:	00 df       	rcall	.-512    	; 0x60 <adc_read_ibatt>
+ 260:	80 93 72 00 	sts	0x0072, r24
+ 264:	90 93 73 00 	sts	0x0073, r25
+			current_offset = battery_current/32;
+ 268:	28 2f       	mov	r18, r24
+ 26a:	39 2f       	mov	r19, r25
+ 26c:	33 23       	and	r19, r19
+ 26e:	14 f4       	brge	.+4      	; 0x274 <__stack+0x115>
+ 270:	21 5e       	subi	r18, 0xE1	; 225
+ 272:	3f 4f       	sbci	r19, 0xFF	; 255
+ 274:	35 95       	asr	r19
+ 276:	27 95       	ror	r18
+ 278:	35 95       	asr	r19
+ 27a:	27 95       	ror	r18
+ 27c:	35 95       	asr	r19
+ 27e:	27 95       	ror	r18
+ 280:	35 95       	asr	r19
+ 282:	27 95       	ror	r18
+ 284:	35 95       	asr	r19
+ 286:	27 95       	ror	r18
+ 288:	30 93 61 00 	sts	0x0061, r19
+ 28c:	20 93 60 00 	sts	0x0060, r18
+			
+			if(battery_voltage - current_offset > 220)
+ 290:	80 91 74 00 	lds	r24, 0x0074
+ 294:	90 91 75 00 	lds	r25, 0x0075
+ 298:	82 1b       	sub	r24, r18
+ 29a:	93 0b       	sbc	r25, r19
+ 29c:	8d 3d       	cpi	r24, 0xDD	; 221
+ 29e:	91 05       	cpc	r25, r1
+ 2a0:	20 f0       	brcs	.+8      	; 0x2aa <__stack+0x14b>
+			{
+				OCR1B -= 1;
+ 2a2:	8c b5       	in	r24, 0x2c	; 44
+ 2a4:	81 50       	subi	r24, 0x01	; 1
+ 2a6:	8c bd       	out	0x2c, r24	; 44
+ 2a8:	06 c0       	rjmp	.+12     	; 0x2b6 <__stack+0x157>
+			}
+		
+			else if(battery_voltage - current_offset < 220)
+ 2aa:	8c 3d       	cpi	r24, 0xDC	; 220
+ 2ac:	91 05       	cpc	r25, r1
+ 2ae:	18 f4       	brcc	.+6      	; 0x2b6 <__stack+0x157>
+			{
+				OCR1B += 3;
+ 2b0:	8c b5       	in	r24, 0x2c	; 44
+ 2b2:	8d 5f       	subi	r24, 0xFD	; 253
+ 2b4:	8c bd       	out	0x2c, r24	; 44
+			}
+		
+			if(battery_voltage - current_offset < 208)
+ 2b6:	20 91 74 00 	lds	r18, 0x0074
+ 2ba:	30 91 75 00 	lds	r19, 0x0075
+ 2be:	80 91 60 00 	lds	r24, 0x0060
+ 2c2:	90 91 61 00 	lds	r25, 0x0061
+ 2c6:	a9 01       	movw	r20, r18
+ 2c8:	48 1b       	sub	r20, r24
+ 2ca:	59 0b       	sbc	r21, r25
+ 2cc:	40 3d       	cpi	r20, 0xD0	; 208
+ 2ce:	51 05       	cpc	r21, r1
+ 2d0:	f0 f4       	brcc	.+60     	; 0x30e <__stack+0x1af>
+			{
+				not_enough_volts++;
+ 2d2:	80 91 64 00 	lds	r24, 0x0064
+ 2d6:	90 91 65 00 	lds	r25, 0x0065
+ 2da:	a0 91 66 00 	lds	r26, 0x0066
+ 2de:	b0 91 67 00 	lds	r27, 0x0067
+ 2e2:	01 96       	adiw	r24, 0x01	; 1
+ 2e4:	a1 1d       	adc	r26, r1
+ 2e6:	b1 1d       	adc	r27, r1
+ 2e8:	80 93 64 00 	sts	0x0064, r24
+ 2ec:	90 93 65 00 	sts	0x0065, r25
+ 2f0:	a0 93 66 00 	sts	0x0066, r26
+ 2f4:	b0 93 67 00 	sts	0x0067, r27
+				if(not_enough_volts >= 1000)
+ 2f8:	88 3e       	cpi	r24, 0xE8	; 232
+ 2fa:	93 40       	sbci	r25, 0x03	; 3
+ 2fc:	a1 05       	cpc	r26, r1
+ 2fe:	b1 05       	cpc	r27, r1
+ 300:	30 f0       	brcs	.+12     	; 0x30e <__stack+0x1af>
+				{
+					go_back_bulk = TRUE;
+ 302:	81 e0       	ldi	r24, 0x01	; 1
+ 304:	90 e0       	ldi	r25, 0x00	; 0
+ 306:	90 93 63 00 	sts	0x0063, r25
+ 30a:	80 93 62 00 	sts	0x0062, r24
+				}
+			}
+		
+			if(battery_voltage - current_offset > 216)
+ 30e:	49 3d       	cpi	r20, 0xD9	; 217
+ 310:	51 05       	cpc	r21, r1
+ 312:	40 f0       	brcs	.+16     	; 0x324 <__stack+0x1c5>
+			{
+				not_enough_volts = 0;
+ 314:	10 92 64 00 	sts	0x0064, r1
+ 318:	10 92 65 00 	sts	0x0065, r1
+ 31c:	10 92 66 00 	sts	0x0066, r1
+ 320:	10 92 67 00 	sts	0x0067, r1
+			}
+		
+			if(battery_voltage > 240)
+ 324:	21 3f       	cpi	r18, 0xF1	; 241
+ 326:	31 05       	cpc	r19, r1
+ 328:	14 f0       	brlt	.+4      	; 0x32e <__stack+0x1cf>
+			{
+				OCR1B = 160;
+ 32a:	80 ea       	ldi	r24, 0xA0	; 160
+ 32c:	8c bd       	out	0x2c, r24	; 44
+			}
+		
+			if(battery_voltage < 170)
+ 32e:	80 91 74 00 	lds	r24, 0x0074
+ 332:	90 91 75 00 	lds	r25, 0x0075
+ 336:	8a 3a       	cpi	r24, 0xAA	; 170
+ 338:	91 05       	cpc	r25, r1
+ 33a:	14 f4       	brge	.+4      	; 0x340 <__stack+0x1e1>
+			{
+				OCR1B = 130;
+ 33c:	82 e8       	ldi	r24, 0x82	; 130
+ 33e:	8c bd       	out	0x2c, r24	; 44
+			}
+		
+			if(go_back_bulk)
+ 340:	80 91 62 00 	lds	r24, 0x0062
+ 344:	90 91 63 00 	lds	r25, 0x0063
+ 348:	89 2b       	or	r24, r25
+ 34a:	31 f0       	breq	.+12     	; 0x358 <__stack+0x1f9>
+			{
+				charging_mode = CONSTANT_CURRENT;
+ 34c:	10 92 7f 00 	sts	0x007F, r1
+				go_back_bulk = 0;
+ 350:	10 92 63 00 	sts	0x0063, r1
+ 354:	10 92 62 00 	sts	0x0062, r1
+			}	
+		
+			if(battery_current < 10)
+ 358:	20 91 72 00 	lds	r18, 0x0072
+ 35c:	30 91 73 00 	lds	r19, 0x0073
+ 360:	2a 30       	cpi	r18, 0x0A	; 10
+ 362:	31 05       	cpc	r19, r1
+ 364:	9c f4       	brge	.+38     	; 0x38c <__stack+0x22d>
+			{
+				trickle_charge++;
+ 366:	80 91 68 00 	lds	r24, 0x0068
+ 36a:	90 91 69 00 	lds	r25, 0x0069
+ 36e:	a0 91 6a 00 	lds	r26, 0x006A
+ 372:	b0 91 6b 00 	lds	r27, 0x006B
+ 376:	01 96       	adiw	r24, 0x01	; 1
+ 378:	a1 1d       	adc	r26, r1
+ 37a:	b1 1d       	adc	r27, r1
+ 37c:	80 93 68 00 	sts	0x0068, r24
+ 380:	90 93 69 00 	sts	0x0069, r25
+ 384:	a0 93 6a 00 	sts	0x006A, r26
+ 388:	b0 93 6b 00 	sts	0x006B, r27
+			}
+		
+			if(battery_current > 30)
+ 38c:	2f 31       	cpi	r18, 0x1F	; 31
+ 38e:	31 05       	cpc	r19, r1
+ 390:	4c f0       	brlt	.+18     	; 0x3a4 <__stack+0x245>
+			{
+				trickle_charge = 0;
+ 392:	10 92 68 00 	sts	0x0068, r1
+ 396:	10 92 69 00 	sts	0x0069, r1
+ 39a:	10 92 6a 00 	sts	0x006A, r1
+ 39e:	10 92 6b 00 	sts	0x006B, r1
+ 3a2:	08 95       	ret
+			}
+		
+			if(trickle_charge >= 2000)
+ 3a4:	80 91 68 00 	lds	r24, 0x0068
+ 3a8:	90 91 69 00 	lds	r25, 0x0069
+ 3ac:	a0 91 6a 00 	lds	r26, 0x006A
+ 3b0:	b0 91 6b 00 	lds	r27, 0x006B
+ 3b4:	80 3d       	cpi	r24, 0xD0	; 208
+ 3b6:	97 40       	sbci	r25, 0x07	; 7
+ 3b8:	a1 05       	cpc	r26, r1
+ 3ba:	b1 05       	cpc	r27, r1
+ 3bc:	50 f1       	brcs	.+84     	; 0x412 <__stack+0x2b3>
+			{
+				charging_mode = TRICKLE_CHARGE;
+ 3be:	82 e0       	ldi	r24, 0x02	; 2
+ 3c0:	80 93 7f 00 	sts	0x007F, r24
+ 3c4:	08 95       	ret
+		
+		break;
+		
+		case TRICKLE_CHARGE:
+			
+			battery_voltage = adc_read_vbatt();
+ 3c6:	40 de       	rcall	.-896    	; 0x48 <adc_read_vbatt>
+ 3c8:	90 93 75 00 	sts	0x0075, r25
+ 3cc:	80 93 74 00 	sts	0x0074, r24
+			current_offset = adc_read_ibatt();
+ 3d0:	47 de       	rcall	.-882    	; 0x60 <adc_read_ibatt>
+			current_offset = current_offset/32;
+ 3d2:	96 95       	lsr	r25
+ 3d4:	87 95       	ror	r24
+ 3d6:	92 95       	swap	r25
+ 3d8:	82 95       	swap	r24
+ 3da:	8f 70       	andi	r24, 0x0F	; 15
+ 3dc:	89 27       	eor	r24, r25
+ 3de:	9f 70       	andi	r25, 0x0F	; 15
+ 3e0:	89 27       	eor	r24, r25
+ 3e2:	90 93 61 00 	sts	0x0061, r25
+ 3e6:	80 93 60 00 	sts	0x0060, r24
+			
+			if(battery_voltage - current_offset > 220)
+ 3ea:	20 91 74 00 	lds	r18, 0x0074
+ 3ee:	30 91 75 00 	lds	r19, 0x0075
+ 3f2:	a9 01       	movw	r20, r18
+ 3f4:	48 1b       	sub	r20, r24
+ 3f6:	59 0b       	sbc	r21, r25
+ 3f8:	4d 3d       	cpi	r20, 0xDD	; 221
+ 3fa:	51 05       	cpc	r21, r1
+ 3fc:	20 f0       	brcs	.+8      	; 0x406 <__stack+0x2a7>
+			{
+				OCR1B -= 1;
+ 3fe:	8c b5       	in	r24, 0x2c	; 44
+ 400:	81 50       	subi	r24, 0x01	; 1
+ 402:	8c bd       	out	0x2c, r24	; 44
+ 404:	08 95       	ret
+			}
+		
+			else if(battery_voltage - current_offset < 220)
+ 406:	4c 3d       	cpi	r20, 0xDC	; 220
+ 408:	51 05       	cpc	r21, r1
+ 40a:	18 f4       	brcc	.+6      	; 0x412 <__stack+0x2b3>
+			{
+				OCR1B += 3;		
+ 40c:	8c b5       	in	r24, 0x2c	; 44
+ 40e:	8d 5f       	subi	r24, 0xFD	; 253
+ 410:	8c bd       	out	0x2c, r24	; 44
+ 412:	08 95       	ret
+
+00000414 <debounce_jack>:
+#include "debounce.h"
+#include "lan.h"
+
+
+int debounce_jack(void)
+{
+ 414:	cf 93       	push	r28
+ 416:	df 93       	push	r29
+ 418:	00 d0       	rcall	.+0      	; 0x41a <debounce_jack+0x6>
+ 41a:	cd b7       	in	r28, 0x3d	; 61
+ 41c:	de b7       	in	r29, 0x3e	; 62
+	int jack_plugged_in = FALSE;
+	volatile int debounce_counter = 0;
+ 41e:	1a 82       	std	Y+2, r1	; 0x02
+ 420:	19 82       	std	Y+1, r1	; 0x01
+	
+	while(debounce_counter < JACK_DELAY_TIME)
+ 422:	89 81       	ldd	r24, Y+1	; 0x01
+ 424:	9a 81       	ldd	r25, Y+2	; 0x02
+ 426:	80 39       	cpi	r24, 0x90	; 144
+ 428:	91 40       	sbci	r25, 0x01	; 1
+ 42a:	54 f4       	brge	.+20     	; 0x440 <debounce_jack+0x2c>
+	{
+		debounce_counter += 1;
+ 42c:	89 81       	ldd	r24, Y+1	; 0x01
+ 42e:	9a 81       	ldd	r25, Y+2	; 0x02
+ 430:	01 96       	adiw	r24, 0x01	; 1
+ 432:	9a 83       	std	Y+2, r25	; 0x02
+ 434:	89 83       	std	Y+1, r24	; 0x01
+int debounce_jack(void)
+{
+	int jack_plugged_in = FALSE;
 	volatile int debounce_counter = 0;
 	
-	while(debounce_counter < BUTTON_DELAY_TIME)
-  82:	89 81       	ldd	r24, Y+1	; 0x01
-  84:	9a 81       	ldd	r25, Y+2	; 0x02
-  86:	80 34       	cpi	r24, 0x40	; 64
-  88:	9f 41       	sbci	r25, 0x1F	; 31
-  8a:	b4 f3       	brlt	.-20     	; 0x78 <debounce_button+0x18>
+	while(debounce_counter < JACK_DELAY_TIME)
+ 436:	89 81       	ldd	r24, Y+1	; 0x01
+ 438:	9a 81       	ldd	r25, Y+2	; 0x02
+ 43a:	80 39       	cpi	r24, 0x90	; 144
+ 43c:	91 40       	sbci	r25, 0x01	; 1
+ 43e:	b4 f3       	brlt	.-20     	; 0x42c <debounce_jack+0x18>
 	{
 		debounce_counter += 1;
 	}
-		
-	if (BUTTON_PRESSED_NOW)
-  8c:	b0 99       	sbic	0x16, 0	; 22
-  8e:	14 c0       	rjmp	.+40     	; 0xb8 <debounce_button+0x58>
+	
+	if (JACK_PLUGGED_IN_NOW)
+ 440:	86 b3       	in	r24, 0x16	; 22
 	{
-		button_pressed = TRUE;
-		debounce_counter = 0;
-  90:	1a 82       	std	Y+2, r1	; 0x02
-  92:	19 82       	std	Y+1, r1	; 0x01
-			
-		while(debounce_counter < BUTTON_IGNORE_TIME)
-  94:	89 81       	ldd	r24, Y+1	; 0x01
-  96:	9a 81       	ldd	r25, Y+2	; 0x02
-  98:	88 35       	cpi	r24, 0x58	; 88
-  9a:	9b 41       	sbci	r25, 0x1B	; 27
-  9c:	84 f4       	brge	.+32     	; 0xbe <debounce_button+0x5e>
-		{
-			debounce_counter += 1;
-  9e:	89 81       	ldd	r24, Y+1	; 0x01
-  a0:	9a 81       	ldd	r25, Y+2	; 0x02
-  a2:	01 96       	adiw	r24, 0x01	; 1
-  a4:	9a 83       	std	Y+2, r25	; 0x02
-  a6:	89 83       	std	Y+1, r24	; 0x01
-	if (BUTTON_PRESSED_NOW)
-	{
-		button_pressed = TRUE;
-		debounce_counter = 0;
-			
-		while(debounce_counter < BUTTON_IGNORE_TIME)
-  a8:	89 81       	ldd	r24, Y+1	; 0x01
-  aa:	9a 81       	ldd	r25, Y+2	; 0x02
-  ac:	88 35       	cpi	r24, 0x58	; 88
-  ae:	9b 41       	sbci	r25, 0x1B	; 27
-  b0:	b4 f3       	brlt	.-20     	; 0x9e <debounce_button+0x3e>
-		debounce_counter += 1;
+		jack_plugged_in = FALSE;
 	}
-		
-	if (BUTTON_PRESSED_NOW)
-	{
-		button_pressed = TRUE;
-  b2:	21 e0       	ldi	r18, 0x01	; 1
-  b4:	30 e0       	ldi	r19, 0x00	; 0
-  b6:	05 c0       	rjmp	.+10     	; 0xc2 <debounce_button+0x62>
-			
-	}
-		
-	else
-	{
-		button_pressed = FALSE;
-  b8:	20 e0       	ldi	r18, 0x00	; 0
-  ba:	30 e0       	ldi	r19, 0x00	; 0
-  bc:	02 c0       	rjmp	.+4      	; 0xc2 <debounce_button+0x62>
-		debounce_counter += 1;
-	}
-		
-	if (BUTTON_PRESSED_NOW)
-	{
-		button_pressed = TRUE;
-  be:	21 e0       	ldi	r18, 0x01	; 1
-  c0:	30 e0       	ldi	r19, 0x00	; 0
-	{
-		button_pressed = FALSE;
-	}
-		
+	
 
 	debounce_counter = 0;
-  c2:	1a 82       	std	Y+2, r1	; 0x02
-  c4:	19 82       	std	Y+1, r1	; 0x01
+ 442:	1a 82       	std	Y+2, r1	; 0x02
+ 444:	19 82       	std	Y+1, r1	; 0x01
 	BUTTON_PCI_ENABLE;
-  c6:	82 b5       	in	r24, 0x22	; 34
-  c8:	81 60       	ori	r24, 0x01	; 1
-  ca:	82 bd       	out	0x22, r24	; 34
-	return button_pressed;
-	
+ 446:	82 b5       	in	r24, 0x22	; 34
+ 448:	81 60       	ori	r24, 0x01	; 1
+ 44a:	82 bd       	out	0x22, r24	; 34
+	JACK_PCI_ENABLE;	//define!
+ 44c:	82 b5       	in	r24, 0x22	; 34
+ 44e:	80 61       	ori	r24, 0x10	; 16
+ 450:	82 bd       	out	0x22, r24	; 34
+	return jack_plugged_in;
 }
-  cc:	82 2f       	mov	r24, r18
-  ce:	93 2f       	mov	r25, r19
-  d0:	0f 90       	pop	r0
-  d2:	0f 90       	pop	r0
-  d4:	df 91       	pop	r29
-  d6:	cf 91       	pop	r28
-  d8:	08 95       	ret
+ 452:	80 e0       	ldi	r24, 0x00	; 0
+ 454:	90 e0       	ldi	r25, 0x00	; 0
+ 456:	0f 90       	pop	r0
+ 458:	0f 90       	pop	r0
+ 45a:	df 91       	pop	r29
+ 45c:	cf 91       	pop	r28
+ 45e:	08 95       	ret
 
-000000da <setup>:
+00000460 <setup>:
 }
 
 
 void setup(void)
 {
 	cli();
-  da:	f8 94       	cli
+ 460:	f8 94       	cli
 
     int i;
 	for(i = 0; i <= 7; i++)
-  dc:	80 e0       	ldi	r24, 0x00	; 0
-  de:	90 e0       	ldi	r25, 0x00	; 0
+ 462:	80 e0       	ldi	r24, 0x00	; 0
+ 464:	90 e0       	ldi	r25, 0x00	; 0
 	{
 		CLRBIT(PCMSK0,i);
-  e0:	41 e0       	ldi	r20, 0x01	; 1
-  e2:	50 e0       	ldi	r21, 0x00	; 0
-  e4:	63 b5       	in	r22, 0x23	; 35
-  e6:	9a 01       	movw	r18, r20
-  e8:	08 2e       	mov	r0, r24
-  ea:	02 c0       	rjmp	.+4      	; 0xf0 <setup+0x16>
-  ec:	22 0f       	add	r18, r18
-  ee:	33 1f       	adc	r19, r19
-  f0:	0a 94       	dec	r0
-  f2:	e2 f7       	brpl	.-8      	; 0xec <setup+0x12>
-  f4:	20 95       	com	r18
-  f6:	32 2f       	mov	r19, r18
-  f8:	36 23       	and	r19, r22
-  fa:	33 bd       	out	0x23, r19	; 35
+ 466:	41 e0       	ldi	r20, 0x01	; 1
+ 468:	50 e0       	ldi	r21, 0x00	; 0
+ 46a:	63 b5       	in	r22, 0x23	; 35
+ 46c:	9a 01       	movw	r18, r20
+ 46e:	08 2e       	mov	r0, r24
+ 470:	02 c0       	rjmp	.+4      	; 0x476 <setup+0x16>
+ 472:	22 0f       	add	r18, r18
+ 474:	33 1f       	adc	r19, r19
+ 476:	0a 94       	dec	r0
+ 478:	e2 f7       	brpl	.-8      	; 0x472 <setup+0x12>
+ 47a:	20 95       	com	r18
+ 47c:	32 2f       	mov	r19, r18
+ 47e:	36 23       	and	r19, r22
+ 480:	33 bd       	out	0x23, r19	; 35
 		CLRBIT(PCMSK1,i);
-  fc:	32 b5       	in	r19, 0x22	; 34
-  fe:	23 23       	and	r18, r19
- 100:	22 bd       	out	0x22, r18	; 34
+ 482:	32 b5       	in	r19, 0x22	; 34
+ 484:	23 23       	and	r18, r19
+ 486:	22 bd       	out	0x22, r18	; 34
 void setup(void)
 {
 	cli();
 
     int i;
 	for(i = 0; i <= 7; i++)
- 102:	01 96       	adiw	r24, 0x01	; 1
- 104:	88 30       	cpi	r24, 0x08	; 8
- 106:	91 05       	cpc	r25, r1
- 108:	69 f7       	brne	.-38     	; 0xe4 <setup+0xa>
+ 488:	01 96       	adiw	r24, 0x01	; 1
+ 48a:	88 30       	cpi	r24, 0x08	; 8
+ 48c:	91 05       	cpc	r25, r1
+ 48e:	69 f7       	brne	.-38     	; 0x46a <setup+0xa>
 		CLRBIT(PCMSK0,i);
 		CLRBIT(PCMSK1,i);
 	}
   
     /*  Enable the PLL.  */
     ENABLE_PLL;
- 10a:	89 b5       	in	r24, 0x29	; 41
- 10c:	82 60       	ori	r24, 0x02	; 2
- 10e:	89 bd       	out	0x29, r24	; 41
+ 490:	89 b5       	in	r24, 0x29	; 41
+ 492:	82 60       	ori	r24, 0x02	; 2
+ 494:	89 bd       	out	0x29, r24	; 41
     while(PLL_IS_NOT_LOCKED)
- 110:	09 b4       	in	r0, 0x29	; 41
- 112:	00 fe       	sbrs	r0, 0
- 114:	fd cf       	rjmp	.-6      	; 0x110 <setup+0x36>
+ 496:	09 b4       	in	r0, 0x29	; 41
+ 498:	00 fe       	sbrs	r0, 0
+ 49a:	fd cf       	rjmp	.-6      	; 0x496 <setup+0x36>
     {
         // Waiting for PLOCK bit to be set
     }
     ENABLE_PCK;
- 116:	89 b5       	in	r24, 0x29	; 41
- 118:	84 60       	ori	r24, 0x04	; 4
- 11a:	89 bd       	out	0x29, r24	; 41
+ 49c:	89 b5       	in	r24, 0x29	; 41
+ 49e:	84 60       	ori	r24, 0x04	; 4
+ 4a0:	89 bd       	out	0x29, r24	; 41
 
     /*  Use a prescaler of 16 to set the system clock at 500 kHz (1 MHz?).
     */
     SET_SYS_CLK;
- 11c:	80 e8       	ldi	r24, 0x80	; 128
- 11e:	88 bd       	out	0x28, r24	; 40
- 120:	84 e0       	ldi	r24, 0x04	; 4
- 122:	88 bd       	out	0x28, r24	; 40
+ 4a2:	80 e8       	ldi	r24, 0x80	; 128
+ 4a4:	88 bd       	out	0x28, r24	; 40
+ 4a6:	84 e0       	ldi	r24, 0x04	; 4
+ 4a8:	88 bd       	out	0x28, r24	; 40
 
     /*  IO Configurations
     */
 	CFG_IO_BUTTON;		
- 124:	b8 98       	cbi	0x17, 0	; 23
- 126:	c0 9a       	sbi	0x18, 0	; 24
-	CFG_IO_LED_ENABLE;	
- 128:	b9 9a       	sbi	0x17, 1	; 23
- 12a:	c1 98       	cbi	0x18, 1	; 24
+ 4aa:	b8 98       	cbi	0x17, 0	; 23
+ 4ac:	c0 9a       	sbi	0x18, 0	; 24
+	CFG_IO_LED_ENABLE;
+ 4ae:	b9 9a       	sbi	0x17, 1	; 23
+ 4b0:	c1 98       	cbi	0x18, 1	; 24
+	CFG_IO_JACK;	
+ 4b2:	bc 98       	cbi	0x17, 4	; 23
+ 4b4:	c4 98       	cbi	0x18, 4	; 24
     CFG_IO_PWM;			
- 12c:	bb 9a       	sbi	0x17, 3	; 23
- 12e:	c3 98       	cbi	0x18, 3	; 24
+ 4b6:	bb 9a       	sbi	0x17, 3	; 23
+ 4b8:	c3 98       	cbi	0x18, 3	; 24
     
     /*  Clock 1 (PWM clock) Configurations
         Use PLL to set clock 1 at 64 MHz, asynchronous from the system clock.
         Use a prescaler of 4 and a TOP value of 256 to have FPWM frequency at 62.5 kHz.
     */
     CFG_PWM;
- 130:	80 b7       	in	r24, 0x30	; 48
- 132:	8f 7d       	andi	r24, 0xDF	; 223
- 134:	80 bf       	out	0x30, r24	; 48
- 136:	80 b7       	in	r24, 0x30	; 48
- 138:	8f 7e       	andi	r24, 0xEF	; 239
- 13a:	80 bf       	out	0x30, r24	; 48
- 13c:	80 b7       	in	r24, 0x30	; 48
- 13e:	81 60       	ori	r24, 0x01	; 1
- 140:	80 bf       	out	0x30, r24	; 48
- 142:	86 b5       	in	r24, 0x26	; 38
- 144:	8d 7f       	andi	r24, 0xFD	; 253
- 146:	86 bd       	out	0x26, r24	; 38
- 148:	86 b5       	in	r24, 0x26	; 38
- 14a:	8e 7f       	andi	r24, 0xFE	; 254
- 14c:	86 bd       	out	0x26, r24	; 38
+ 4ba:	80 b7       	in	r24, 0x30	; 48
+ 4bc:	8f 7d       	andi	r24, 0xDF	; 223
+ 4be:	80 bf       	out	0x30, r24	; 48
+ 4c0:	80 b7       	in	r24, 0x30	; 48
+ 4c2:	8f 7e       	andi	r24, 0xEF	; 239
+ 4c4:	80 bf       	out	0x30, r24	; 48
+ 4c6:	80 b7       	in	r24, 0x30	; 48
+ 4c8:	81 60       	ori	r24, 0x01	; 1
+ 4ca:	80 bf       	out	0x30, r24	; 48
+ 4cc:	86 b5       	in	r24, 0x26	; 38
+ 4ce:	8d 7f       	andi	r24, 0xFD	; 253
+ 4d0:	86 bd       	out	0x26, r24	; 38
+ 4d2:	86 b5       	in	r24, 0x26	; 38
+ 4d4:	8e 7f       	andi	r24, 0xFE	; 254
+ 4d6:	86 bd       	out	0x26, r24	; 38
     FPWM_NORMAL_PORT_OP;
- 14e:	80 b7       	in	r24, 0x30	; 48
- 150:	8f 7d       	andi	r24, 0xDF	; 223
- 152:	80 bf       	out	0x30, r24	; 48
+ 4d8:	80 b7       	in	r24, 0x30	; 48
+ 4da:	8f 7d       	andi	r24, 0xDF	; 223
+ 4dc:	80 bf       	out	0x30, r24	; 48
     TURN_OFF_PWM_CLK;
- 154:	8f b5       	in	r24, 0x2f	; 47
- 156:	87 7f       	andi	r24, 0xF7	; 247
- 158:	8f bd       	out	0x2f, r24	; 47
- 15a:	8f b5       	in	r24, 0x2f	; 47
- 15c:	8b 7f       	andi	r24, 0xFB	; 251
- 15e:	8f bd       	out	0x2f, r24	; 47
- 160:	8f b5       	in	r24, 0x2f	; 47
- 162:	8d 7f       	andi	r24, 0xFD	; 253
- 164:	8f bd       	out	0x2f, r24	; 47
- 166:	8f b5       	in	r24, 0x2f	; 47
- 168:	8e 7f       	andi	r24, 0xFE	; 254
- 16a:	8f bd       	out	0x2f, r24	; 47
+ 4de:	8f b5       	in	r24, 0x2f	; 47
+ 4e0:	87 7f       	andi	r24, 0xF7	; 247
+ 4e2:	8f bd       	out	0x2f, r24	; 47
+ 4e4:	8f b5       	in	r24, 0x2f	; 47
+ 4e6:	8b 7f       	andi	r24, 0xFB	; 251
+ 4e8:	8f bd       	out	0x2f, r24	; 47
+ 4ea:	8f b5       	in	r24, 0x2f	; 47
+ 4ec:	8d 7f       	andi	r24, 0xFD	; 253
+ 4ee:	8f bd       	out	0x2f, r24	; 47
+ 4f0:	8f b5       	in	r24, 0x2f	; 47
+ 4f2:	8e 7f       	andi	r24, 0xFE	; 254
+ 4f4:	8f bd       	out	0x2f, r24	; 47
 	OCR1C = 255;
- 16c:	8f ef       	ldi	r24, 0xFF	; 255
- 16e:	8b bd       	out	0x2b, r24	; 43
+ 4f6:	8f ef       	ldi	r24, 0xFF	; 255
+ 4f8:	8b bd       	out	0x2b, r24	; 43
     OCR1B = 0;
- 170:	1c bc       	out	0x2c, r1	; 44
+ 4fa:	1c bc       	out	0x2c, r1	; 44
 		
     CFG_ADC;
- 172:	3f 98       	cbi	0x07, 7	; 7
- 174:	3e 9a       	sbi	0x07, 6	; 7
- 176:	3d 9a       	sbi	0x07, 5	; 7
+ 4fc:	3f 98       	cbi	0x07, 7	; 7
+ 4fe:	3e 9a       	sbi	0x07, 6	; 7
+ 500:	3d 9a       	sbi	0x07, 5	; 7
 
     ADC_ENABLE;
- 178:	37 9a       	sbi	0x06, 7	; 6
+ 502:	37 9a       	sbi	0x06, 7	; 6
     ADC_ISR_ENABLE;
- 17a:	33 9a       	sbi	0x06, 3	; 6
+ 504:	33 9a       	sbi	0x06, 3	; 6
     
     LED_ENABLE;
- 17c:	c1 9a       	sbi	0x18, 1	; 24
+ 506:	c1 9a       	sbi	0x18, 1	; 24
 
 	PCI_ENABLE;
- 17e:	8b b7       	in	r24, 0x3b	; 59
- 180:	80 62       	ori	r24, 0x20	; 32
- 182:	8b bf       	out	0x3b, r24	; 59
- 184:	8b b7       	in	r24, 0x3b	; 59
- 186:	80 61       	ori	r24, 0x10	; 16
- 188:	8b bf       	out	0x3b, r24	; 59
+ 508:	8b b7       	in	r24, 0x3b	; 59
+ 50a:	80 62       	ori	r24, 0x20	; 32
+ 50c:	8b bf       	out	0x3b, r24	; 59
+ 50e:	8b b7       	in	r24, 0x3b	; 59
+ 510:	80 61       	ori	r24, 0x10	; 16
+ 512:	8b bf       	out	0x3b, r24	; 59
 	BUTTON_PCI_ENABLE;
- 18a:	82 b5       	in	r24, 0x22	; 34
- 18c:	81 60       	ori	r24, 0x01	; 1
- 18e:	82 bd       	out	0x22, r24	; 34
+ 514:	82 b5       	in	r24, 0x22	; 34
+ 516:	81 60       	ori	r24, 0x01	; 1
+ 518:	82 bd       	out	0x22, r24	; 34
+	JACK_PCI_ENABLE;
+ 51a:	82 b5       	in	r24, 0x22	; 34
+ 51c:	80 61       	ori	r24, 0x10	; 16
+ 51e:	82 bd       	out	0x22, r24	; 34
 	
 	FPWM_CLR_COMP_MATCH;
- 190:	80 b7       	in	r24, 0x30	; 48
- 192:	80 62       	ori	r24, 0x20	; 32
- 194:	80 bf       	out	0x30, r24	; 48
+ 520:	80 b7       	in	r24, 0x30	; 48
+ 522:	80 62       	ori	r24, 0x20	; 32
+ 524:	80 bf       	out	0x30, r24	; 48
 	TURN_ON_PWM_CLK;
- 196:	8f b5       	in	r24, 0x2f	; 47
- 198:	87 7f       	andi	r24, 0xF7	; 247
- 19a:	8f bd       	out	0x2f, r24	; 47
- 19c:	8f b5       	in	r24, 0x2f	; 47
- 19e:	8b 7f       	andi	r24, 0xFB	; 251
- 1a0:	8f bd       	out	0x2f, r24	; 47
- 1a2:	8f b5       	in	r24, 0x2f	; 47
- 1a4:	82 60       	ori	r24, 0x02	; 2
- 1a6:	8f bd       	out	0x2f, r24	; 47
- 1a8:	8f b5       	in	r24, 0x2f	; 47
- 1aa:	81 60       	ori	r24, 0x01	; 1
- 1ac:	8f bd       	out	0x2f, r24	; 47
-	
+ 526:	8f b5       	in	r24, 0x2f	; 47
+ 528:	87 7f       	andi	r24, 0xF7	; 247
+ 52a:	8f bd       	out	0x2f, r24	; 47
+ 52c:	8f b5       	in	r24, 0x2f	; 47
+ 52e:	8b 7f       	andi	r24, 0xFB	; 251
+ 530:	8f bd       	out	0x2f, r24	; 47
+ 532:	8f b5       	in	r24, 0x2f	; 47
+ 534:	82 60       	ori	r24, 0x02	; 2
+ 536:	8f bd       	out	0x2f, r24	; 47
+ 538:	8f b5       	in	r24, 0x2f	; 47
+ 53a:	81 60       	ori	r24, 0x01	; 1
+ 53c:	8f bd       	out	0x2f, r24	; 47
+#if 0	
 	set_sleep_mode(SLEEP_MODE_PWR_DOWN);
- 1ae:	85 b7       	in	r24, 0x35	; 53
- 1b0:	87 7e       	andi	r24, 0xE7	; 231
- 1b2:	80 61       	ori	r24, 0x10	; 16
- 1b4:	85 bf       	out	0x35, r24	; 53
 	sleep_enable();
- 1b6:	85 b7       	in	r24, 0x35	; 53
- 1b8:	80 62       	ori	r24, 0x20	; 32
- 1ba:	85 bf       	out	0x35, r24	; 53
-	
+#endif
+
     sei();
- 1bc:	78 94       	sei
- 1be:	08 95       	ret
+ 53e:	78 94       	sei
+ 540:	08 95       	ret
 
-000001c0 <loop>:
-void loop(void) 
+00000542 <loop>:
+	case CHARGING:
+	
+}
+#endif
+
+if(jack_needs_debounce)
+ 542:	80 91 79 00 	lds	r24, 0x0079
+ 546:	90 91 7a 00 	lds	r25, 0x007A
+ 54a:	89 2b       	or	r24, r25
+ 54c:	49 f0       	breq	.+18     	; 0x560 <loop+0x1e>
 {
+	jack_state = debounce_jack();
+ 54e:	62 df       	rcall	.-316    	; 0x414 <debounce_jack>
+ 550:	90 93 78 00 	sts	0x0078, r25
+ 554:	80 93 77 00 	sts	0x0077, r24
+	jack_needs_debounce = FALSE;
+ 558:	10 92 7a 00 	sts	0x007A, r1
+ 55c:	10 92 79 00 	sts	0x0079, r1
+}
 
+if(jack_state == TRUE)
+ 560:	80 91 77 00 	lds	r24, 0x0077
+ 564:	90 91 78 00 	lds	r25, 0x0078
+ 568:	81 30       	cpi	r24, 0x01	; 1
+ 56a:	91 05       	cpc	r25, r1
+ 56c:	49 f4       	brne	.+18     	; 0x580 <loop+0x3e>
+{
+	lantern_op_mode = CHARGING;
+ 56e:	81 e0       	ldi	r24, 0x01	; 1
+ 570:	80 93 76 00 	sts	0x0076, r24
+	initialize_charge();
+ 574:	81 dd       	rcall	.-1278   	; 0x78 <initialize_charge>
+else if(jack_state == FALSE)
+{
+	lantern_op_mode = LIGHTING;
+}
 
-	
-	if(needs_debounce)
- 1c0:	80 91 64 00 	lds	r24, 0x0064
- 1c4:	90 91 65 00 	lds	r25, 0x0065
- 1c8:	89 2b       	or	r24, r25
- 1ca:	49 f0       	breq	.+18     	; 0x1de <loop+0x1e>
-	{
-		button_state = debounce_button();
- 1cc:	49 df       	rcall	.-366    	; 0x60 <debounce_button>
- 1ce:	90 93 63 00 	sts	0x0063, r25
- 1d2:	80 93 62 00 	sts	0x0062, r24
-		needs_debounce = FALSE;
- 1d6:	10 92 65 00 	sts	0x0065, r1
- 1da:	10 92 64 00 	sts	0x0064, r1
-		
-	}
+while(lantern_op_mode == CHARGING)
+ 576:	80 91 76 00 	lds	r24, 0x0076
+ 57a:	81 30       	cpi	r24, 0x01	; 1
+ 57c:	31 f0       	breq	.+12     	; 0x58a <loop+0x48>
+ 57e:	08 95       	ret
+{
+	lantern_op_mode = CHARGING;
+	initialize_charge();
+}
 
-	//target 102
-	
-	if(button_state == TRUE)
- 1de:	80 91 62 00 	lds	r24, 0x0062
- 1e2:	90 91 63 00 	lds	r25, 0x0063
- 1e6:	01 97       	sbiw	r24, 0x01	; 1
- 1e8:	c1 f5       	brne	.+112    	; 0x25a <loop+0x9a>
-	{
-		cli();
- 1ea:	f8 94       	cli
-		if(light_on == TRUE)
- 1ec:	80 91 60 00 	lds	r24, 0x0060
- 1f0:	90 91 61 00 	lds	r25, 0x0061
- 1f4:	01 97       	sbiw	r24, 0x01	; 1
- 1f6:	71 f4       	brne	.+28     	; 0x214 <loop+0x54>
-		{
-			OCR1B = 0;
- 1f8:	1c bc       	out	0x2c, r1	; 44
-			light_on = FALSE;
- 1fa:	10 92 61 00 	sts	0x0061, r1
- 1fe:	10 92 60 00 	sts	0x0060, r1
-			button_state = FALSE;
- 202:	10 92 63 00 	sts	0x0063, r1
- 206:	10 92 62 00 	sts	0x0062, r1
-			sleep_enable();
- 20a:	85 b7       	in	r24, 0x35	; 53
- 20c:	80 62       	ori	r24, 0x20	; 32
- 20e:	85 bf       	out	0x35, r24	; 53
-			sleep_cpu();
- 210:	88 95       	sleep
- 212:	22 c0       	rjmp	.+68     	; 0x258 <loop+0x98>
-		}
-		
-		else
-		{
-			sleep_disable();
- 214:	85 b7       	in	r24, 0x35	; 53
- 216:	8f 7d       	andi	r24, 0xDF	; 223
- 218:	85 bf       	out	0x35, r24	; 53
-			TURN_ON_PWM_CLK;
- 21a:	8f b5       	in	r24, 0x2f	; 47
- 21c:	87 7f       	andi	r24, 0xF7	; 247
- 21e:	8f bd       	out	0x2f, r24	; 47
- 220:	8f b5       	in	r24, 0x2f	; 47
- 222:	8b 7f       	andi	r24, 0xFB	; 251
- 224:	8f bd       	out	0x2f, r24	; 47
- 226:	8f b5       	in	r24, 0x2f	; 47
- 228:	82 60       	ori	r24, 0x02	; 2
- 22a:	8f bd       	out	0x2f, r24	; 47
- 22c:	8f b5       	in	r24, 0x2f	; 47
- 22e:	81 60       	ori	r24, 0x01	; 1
- 230:	8f bd       	out	0x2f, r24	; 47
-			FPWM_CLR_COMP_MATCH;
- 232:	80 b7       	in	r24, 0x30	; 48
- 234:	80 62       	ori	r24, 0x20	; 32
- 236:	80 bf       	out	0x30, r24	; 48
-			target_pwm = 81;
- 238:	81 e5       	ldi	r24, 0x51	; 81
- 23a:	90 e0       	ldi	r25, 0x00	; 0
- 23c:	90 93 69 00 	sts	0x0069, r25
- 240:	80 93 68 00 	sts	0x0068, r24
-			light_on = TRUE;
- 244:	81 e0       	ldi	r24, 0x01	; 1
- 246:	90 e0       	ldi	r25, 0x00	; 0
- 248:	90 93 61 00 	sts	0x0061, r25
- 24c:	80 93 60 00 	sts	0x0060, r24
-			button_state = FALSE;
- 250:	10 92 63 00 	sts	0x0063, r1
- 254:	10 92 62 00 	sts	0x0062, r1
-		}
-		sei();
- 258:	78 94       	sei
-	}
-	
-	adc_result = adc_read_iled();
- 25a:	f6 de       	rcall	.-532    	; 0x48 <adc_read_iled>
- 25c:	90 93 67 00 	sts	0x0067, r25
- 260:	80 93 66 00 	sts	0x0066, r24
-	
-	if(light_on == TRUE)
- 264:	20 91 60 00 	lds	r18, 0x0060
- 268:	30 91 61 00 	lds	r19, 0x0061
- 26c:	21 30       	cpi	r18, 0x01	; 1
- 26e:	31 05       	cpc	r19, r1
- 270:	89 f4       	brne	.+34     	; 0x294 <loop+0xd4>
-	{
-		
-		if(adc_result < target_pwm)
- 272:	20 91 68 00 	lds	r18, 0x0068
- 276:	30 91 69 00 	lds	r19, 0x0069
- 27a:	82 17       	cp	r24, r18
- 27c:	93 07       	cpc	r25, r19
- 27e:	24 f4       	brge	.+8      	; 0x288 <loop+0xc8>
-		{
-			OCR1B++;
- 280:	8c b5       	in	r24, 0x2c	; 44
- 282:	8f 5f       	subi	r24, 0xFF	; 255
- 284:	8c bd       	out	0x2c, r24	; 44
- 286:	08 95       	ret
-		}
-		else if(adc_result > target_pwm)
- 288:	28 17       	cp	r18, r24
- 28a:	39 07       	cpc	r19, r25
- 28c:	1c f4       	brge	.+6      	; 0x294 <loop+0xd4>
-		{
-			OCR1B--;
- 28e:	8c b5       	in	r24, 0x2c	; 44
- 290:	81 50       	subi	r24, 0x01	; 1
- 292:	8c bd       	out	0x2c, r24	; 44
- 294:	08 95       	ret
+else if(jack_state == FALSE)
+ 580:	89 2b       	or	r24, r25
+ 582:	c9 f7       	brne	.-14     	; 0x576 <loop+0x34>
+{
+	lantern_op_mode = LIGHTING;
+ 584:	10 92 76 00 	sts	0x0076, r1
+ 588:	08 95       	ret
+}
 
-00000296 <main>:
+while(lantern_op_mode == CHARGING)
+{
+	charge_battery();
+ 58a:	b6 dd       	rcall	.-1172   	; 0xf8 <charge_battery>
+else if(jack_state == FALSE)
+{
+	lantern_op_mode = LIGHTING;
+}
+
+while(lantern_op_mode == CHARGING)
+ 58c:	80 91 76 00 	lds	r24, 0x0076
+ 590:	81 30       	cpi	r24, 0x01	; 1
+ 592:	d9 f3       	breq	.-10     	; 0x58a <loop+0x48>
+ 594:	08 95       	ret
+
+00000596 <main>:
 int light_on = FALSE;
-static int glitch_counter = 0;
+lantern_op_mode_t lantern_op_mode = LIGHTING;
 
 int main(void)
 {
     setup();
- 296:	21 df       	rcall	.-446    	; 0xda <setup>
+ 596:	64 df       	rcall	.-312    	; 0x460 <setup>
 	for (;;) 
 	{
 		loop();
- 298:	93 df       	rcall	.-218    	; 0x1c0 <loop>
- 29a:	fe cf       	rjmp	.-4      	; 0x298 <main+0x2>
+ 598:	d4 df       	rcall	.-88     	; 0x542 <loop>
+ 59a:	fe cf       	rjmp	.-4      	; 0x598 <main+0x2>
 
-0000029c <__vector_2>:
-		}
+0000059c <__vector_2>:
 	}
+#endif
 }
 
 ISR(PCINT_vect)
 {
- 29c:	1f 92       	push	r1
- 29e:	0f 92       	push	r0
- 2a0:	0f b6       	in	r0, 0x3f	; 63
- 2a2:	0f 92       	push	r0
- 2a4:	11 24       	eor	r1, r1
- 2a6:	8f 93       	push	r24
- 2a8:	9f 93       	push	r25
-	sleep_disable();
- 2aa:	85 b7       	in	r24, 0x35	; 53
- 2ac:	8f 7d       	andi	r24, 0xDF	; 223
- 2ae:	85 bf       	out	0x35, r24	; 53
-	if(BUTTON_PRESSED_NOW)
- 2b0:	b0 99       	sbic	0x16, 0	; 22
- 2b2:	06 c0       	rjmp	.+12     	; 0x2c0 <__vector_2+0x24>
+ 59c:	1f 92       	push	r1
+ 59e:	0f 92       	push	r0
+ 5a0:	0f b6       	in	r0, 0x3f	; 63
+ 5a2:	0f 92       	push	r0
+ 5a4:	11 24       	eor	r1, r1
+ 5a6:	8f 93       	push	r24
+ 5a8:	9f 93       	push	r25
+
+	if(JACK_PLUGGED_IN_NOW)
+ 5aa:	86 b3       	in	r24, 0x16	; 22
+		LED_DISABLE;
+		BUTTON_PCI_DISABLE;
+		jack_needs_debounce = TRUE;
+//		lantern_op_mode = SAFE_OFF;
+	}
+	else if(JACK_PLUGGED_IN_NOW == 0)
+ 5ac:	86 b3       	in	r24, 0x16	; 22
 	{
-		
-		needs_debounce = TRUE;
- 2b4:	81 e0       	ldi	r24, 0x01	; 1
- 2b6:	90 e0       	ldi	r25, 0x00	; 0
- 2b8:	90 93 65 00 	sts	0x0065, r25
- 2bc:	80 93 64 00 	sts	0x0064, r24
+//		 
+		jack_needs_debounce = TRUE;	
+ 5ae:	81 e0       	ldi	r24, 0x01	; 1
+ 5b0:	90 e0       	ldi	r25, 0x00	; 0
+ 5b2:	90 93 7a 00 	sts	0x007A, r25
+ 5b6:	80 93 79 00 	sts	0x0079, r24
 	}
 	
 }
- 2c0:	9f 91       	pop	r25
- 2c2:	8f 91       	pop	r24
- 2c4:	0f 90       	pop	r0
- 2c6:	0f be       	out	0x3f, r0	; 63
- 2c8:	0f 90       	pop	r0
- 2ca:	1f 90       	pop	r1
- 2cc:	18 95       	reti
+ 5ba:	9f 91       	pop	r25
+ 5bc:	8f 91       	pop	r24
+ 5be:	0f 90       	pop	r0
+ 5c0:	0f be       	out	0x3f, r0	; 63
+ 5c2:	0f 90       	pop	r0
+ 5c4:	1f 90       	pop	r1
+ 5c6:	18 95       	reti
 
-000002ce <__vector_11>:
+000005c8 <__vector_11>:
 
 ISR(ADC_vect)
 {
- 2ce:	1f 92       	push	r1
- 2d0:	0f 92       	push	r0
- 2d2:	0f b6       	in	r0, 0x3f	; 63
- 2d4:	0f 92       	push	r0
- 2d6:	11 24       	eor	r1, r1
+ 5c8:	1f 92       	push	r1
+ 5ca:	0f 92       	push	r0
+ 5cc:	0f b6       	in	r0, 0x3f	; 63
+ 5ce:	0f 92       	push	r0
+ 5d0:	11 24       	eor	r1, r1
 	;
- 2d8:	0f 90       	pop	r0
- 2da:	0f be       	out	0x3f, r0	; 63
- 2dc:	0f 90       	pop	r0
- 2de:	1f 90       	pop	r1
- 2e0:	18 95       	reti
+ 5d2:	0f 90       	pop	r0
+ 5d4:	0f be       	out	0x3f, r0	; 63
+ 5d6:	0f 90       	pop	r0
+ 5d8:	1f 90       	pop	r1
+ 5da:	18 95       	reti
 
-000002e2 <_exit>:
- 2e2:	f8 94       	cli
+000005dc <_exit>:
+ 5dc:	f8 94       	cli
 
-000002e4 <__stop_program>:
- 2e4:	ff cf       	rjmp	.-2      	; 0x2e4 <__stop_program>
+000005de <__stop_program>:
+ 5de:	ff cf       	rjmp	.-2      	; 0x5de <__stop_program>

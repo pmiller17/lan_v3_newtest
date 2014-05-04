@@ -22,7 +22,7 @@
     <eraseonlaunchrule>1</eraseonlaunchrule>
     <AsfVersion>3.5.1</AsfVersion>
     <avrtool>com.atmel.avrdbg.tool.avrdragon</avrtool>
-    <avrtoolinterface>debugWIRE</avrtoolinterface>
+    <avrtoolinterface>ISP</avrtoolinterface>
     <com_atmel_avrdbg_tool_avrdragon>
       <ToolType>com.atmel.avrdbg.tool.avrdragon</ToolType>
       <ToolName>AVR Dragon</ToolName>
@@ -33,7 +33,7 @@
         <ssl>False</ssl>
       </Channel>
       <ToolOptions>
-        <InterfaceName>debugWIRE</InterfaceName>
+        <InterfaceName>ISP</InterfaceName>
         <InterfaceProperties>
           <JtagDbgClock>200000</JtagDbgClock>
           <JtagProgClock>1000000</JtagProgClock>
@@ -116,6 +116,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="adc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="charging_rough.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="charging_rough.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="debounce.c">

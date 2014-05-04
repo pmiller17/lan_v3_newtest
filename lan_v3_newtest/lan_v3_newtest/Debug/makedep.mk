@@ -4,6 +4,8 @@
 
 adc.c
 
+charging_rough.c
+
 debounce.c
 
 lan_v3_newtest.c

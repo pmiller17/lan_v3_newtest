@@ -37,6 +37,7 @@ SUBDIRS :=
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../adc.c \
+../charging_rough.c \
 ../debounce.c \
 ../lan_v3_newtest.c
 
@@ -49,21 +50,25 @@ ASM_SRCS +=
 
 OBJS +=  \
 adc.o \
+charging_rough.o \
 debounce.o \
 lan_v3_newtest.o
 
 OBJS_AS_ARGS +=  \
 adc.o \
+charging_rough.o \
 debounce.o \
 lan_v3_newtest.o
 
 C_DEPS +=  \
 adc.d \
+charging_rough.d \
 debounce.d \
 lan_v3_newtest.d
 
 C_DEPS_AS_ARGS +=  \
 adc.d \
+charging_rough.d \
 debounce.d \
 lan_v3_newtest.d
 
@@ -78,6 +83,8 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

@@ -15,6 +15,7 @@
 #include "lan.h"
 #include "adc.h"
 #include "debounce.h"
+#include "charging_rough.h"
 #include <avr/sleep.h>
 
 int target_pwm = 0;
@@ -100,6 +101,7 @@ void setup(void)
 void loop(void) 
 {
 
+#if 0
 switch lantern_op_mode
 {
 	case LIGHTING:
@@ -138,21 +140,25 @@ switch lantern_op_mode
 				OCR1B--;
 			}
 		}
+	case CHARGING:
+	
 }
+#endif
+
 if(jack_needs_debounce)
 {
-	jack_plugged_in = debounce_jack();
-	jack_needs_debouce = FALSE;
+	jack_state = debounce_jack();
+	jack_needs_debounce = FALSE;
 }
 
-if(jack_plugged_in == TRUE)
+if(jack_state == TRUE)
 {
 	lantern_op_mode = CHARGING;
+	initialize_charge();
 }
 
-else if(jack_plugged_in == FALSE)
+else if(jack_state == FALSE)
 {
-	SETUP_LIGHTING_MODE;
 	lantern_op_mode = LIGHTING;
 }
 
@@ -214,10 +220,11 @@ while(lantern_op_mode == CHARGING)
 
 ISR(PCINT_vect)
 {
-	sleep_disable();
+
 	if(JACK_PLUGGED_IN_NOW)
 	{
-		SETUP_SAFE_OFF_MODE;
+		LED_DISABLE;
+		BUTTON_PCI_DISABLE;
 		jack_needs_debounce = TRUE;
 //		lantern_op_mode = SAFE_OFF;
 	}
@@ -225,12 +232,6 @@ ISR(PCINT_vect)
 	{
 //		 
 		jack_needs_debounce = TRUE;	
-	}
-	
-	if(BUTTON_PRESSED_NOW)
-	{
-		
-		button_needs_debounce = TRUE;
 	}
 	
 }
