@@ -179,7 +179,7 @@ LOAD c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x5e0
+.text           0x00000000      0x640
  *(.vectors)
  .vectors       0x00000000       0x26 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr25/crttn461a.o
                 0x00000000                __vector_default
@@ -265,25 +265,25 @@ LOAD c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-
                 0x000000f8      0x31c charging_rough.o
                 0x000000f8                charge_battery
  .text.debounce_jack
-                0x00000414       0x4c debounce.o
+                0x00000414       0x80 debounce.o
                 0x00000414                debounce_jack
- .text.setup    0x00000460       0xe2 lan_v3_newtest.o
-                0x00000460                setup
- .text.loop     0x00000542       0x54 lan_v3_newtest.o
-                0x00000542                loop
- .text.main     0x00000596        0x6 lan_v3_newtest.o
-                0x00000596                main
+ .text.setup    0x00000494       0xe2 lan_v3_newtest.o
+                0x00000494                setup
+ .text.loop     0x00000576       0x66 lan_v3_newtest.o
+                0x00000576                loop
+ .text.main     0x000005dc        0x6 lan_v3_newtest.o
+                0x000005dc                main
  .text.__vector_2
-                0x0000059c       0x2c lan_v3_newtest.o
-                0x0000059c                __vector_2
+                0x000005e2       0x46 lan_v3_newtest.o
+                0x000005e2                __vector_2
  .text.__vector_11
-                0x000005c8       0x14 lan_v3_newtest.o
-                0x000005c8                __vector_11
-                0x000005dc                . = ALIGN (0x2)
+                0x00000628       0x14 lan_v3_newtest.o
+                0x00000628                __vector_11
+                0x0000063c                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000005dc        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr25\libgcc.a(_exit.o)
-                0x000005dc                _exit
-                0x000005dc                exit
+ .fini9         0x0000063c        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr25\libgcc.a(_exit.o)
+                0x0000063c                _exit
+                0x0000063c                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -302,11 +302,11 @@ LOAD c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000005dc        0x4 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr25\libgcc.a(_exit.o)
+ .fini0         0x0000063c        0x4 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr25\libgcc.a(_exit.o)
  *(.fini0)
-                0x000005e0                _etext = .
+                0x00000640                _etext = .
 
-.data           0x00800060        0x0 load address 0x000005e0
+.data           0x00800060        0x0 load address 0x00000640
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr25/crttn461a.o
@@ -324,7 +324,7 @@ LOAD c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-
                 0x00800060                _edata = .
                 0x00800060                PROVIDE (__data_end, .)
 
-.bss            0x00800060       0x20
+.bss            0x00800060       0x22
                 0x00800060                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
@@ -350,29 +350,31 @@ LOAD c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-
                 0x00800072        0x2 charging_rough.o
  .bss.battery_voltage.1393
                 0x00800074        0x2 charging_rough.o
+ .bss.jack_pin  0x00800076        0x2 lan_v3_newtest.o
+                0x00800076                jack_pin
  .bss.lantern_op_mode
-                0x00800076        0x1 lan_v3_newtest.o
-                0x00800076                lantern_op_mode
+                0x00800078        0x1 lan_v3_newtest.o
+                0x00800078                lantern_op_mode
  .bss.jack_state
-                0x00800077        0x2 lan_v3_newtest.o
-                0x00800077                jack_state
- .bss.jack_needs_debounce
                 0x00800079        0x2 lan_v3_newtest.o
-                0x00800079                jack_needs_debounce
+                0x00800079                jack_state
+ .bss.jack_needs_debounce
+                0x0080007b        0x2 lan_v3_newtest.o
+                0x0080007b                jack_needs_debounce
  *(COMMON)
- COMMON         0x0080007b        0x5 charging_rough.o
-                0x0080007b                overvoltage_thresh_count
-                0x0080007f                charging_mode
-                0x00800080                PROVIDE (__bss_end, .)
-                0x000005e0                __data_load_start = LOADADDR (.data)
-                0x000005e0                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x0080007d        0x5 charging_rough.o
+                0x0080007d                overvoltage_thresh_count
+                0x00800081                charging_mode
+                0x00800082                PROVIDE (__bss_end, .)
+                0x00000640                __data_load_start = LOADADDR (.data)
+                0x00000640                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800080        0x0
-                0x00800080                PROVIDE (__noinit_start, .)
+.noinit         0x00800082        0x0
+                0x00800082                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x00800080                PROVIDE (__noinit_end, .)
-                0x00800080                _end = .
-                0x00800080                PROVIDE (__heap_start, .)
+                0x00800082                PROVIDE (__noinit_end, .)
+                0x00800082                _end = .
+                0x00800082                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -447,27 +449,27 @@ LOAD c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x574
+.debug_info     0x00000000      0x589
  *(.debug_info)
  .debug_info    0x00000000       0xbb adc.o
  .debug_info    0x000000bb      0x1c8 charging_rough.o
- .debug_info    0x00000283       0xe5 debounce.o
- .debug_info    0x00000368      0x20c lan_v3_newtest.o
+ .debug_info    0x00000283       0xe8 debounce.o
+ .debug_info    0x0000036b      0x21e lan_v3_newtest.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0x2a6
+.debug_abbrev   0x00000000      0x297
  *(.debug_abbrev)
  .debug_abbrev  0x00000000       0x53 adc.o
  .debug_abbrev  0x00000053       0xbf charging_rough.o
- .debug_abbrev  0x00000112       0x94 debounce.o
- .debug_abbrev  0x000001a6      0x100 lan_v3_newtest.o
+ .debug_abbrev  0x00000112       0x85 debounce.o
+ .debug_abbrev  0x00000197      0x100 lan_v3_newtest.o
 
-.debug_line     0x00000000      0x4c1
+.debug_line     0x00000000      0x4d4
  *(.debug_line)
  .debug_line    0x00000000       0xf3 adc.o
  .debug_line    0x000000f3      0x148 charging_rough.o
- .debug_line    0x0000023b       0xfd debounce.o
- .debug_line    0x00000338      0x189 lan_v3_newtest.o
+ .debug_line    0x0000023b      0x108 debounce.o
+ .debug_line    0x00000343      0x191 lan_v3_newtest.o
 
 .debug_frame    0x00000000      0x150
  *(.debug_frame)
@@ -476,7 +478,7 @@ LOAD c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-
  .debug_frame   0x00000078       0x54 debounce.o
  .debug_frame   0x000000cc       0x84 lan_v3_newtest.o
 
-.debug_str      0x00000000      0x358
+.debug_str      0x00000000      0x361
  *(.debug_str)
  .debug_str     0x00000000       0xe7 adc.o
                                 0x11b (size before relaxing)
@@ -484,13 +486,13 @@ LOAD c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-
                                 0x22d (size before relaxing)
  .debug_str     0x00000212       0x5e debounce.o
                                 0x142 (size before relaxing)
- .debug_str     0x00000270       0xe8 lan_v3_newtest.o
-                                0x1fb (size before relaxing)
+ .debug_str     0x00000270       0xf1 lan_v3_newtest.o
+                                0x204 (size before relaxing)
 
-.debug_loc      0x00000000      0x1f0
+.debug_loc      0x00000000      0x23c
  *(.debug_loc)
- .debug_loc     0x00000000      0x154 debounce.o
- .debug_loc     0x00000154       0x9c lan_v3_newtest.o
+ .debug_loc     0x00000000      0x1a0 debounce.o
+ .debug_loc     0x000001a0       0x9c lan_v3_newtest.o
 
 .debug_macinfo
  *(.debug_macinfo)

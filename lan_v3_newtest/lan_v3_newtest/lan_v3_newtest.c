@@ -23,9 +23,10 @@ int adc_result = 0;
 volatile int button_needs_debounce = FALSE;
 int button_state = 0;
 volatile int jack_needs_debounce = FALSE;
-int jack_state = 0;
+volatile int jack_state = FALSE;
 int light_on = FALSE;
 lantern_op_mode_t lantern_op_mode = LIGHTING;
+int jack_pin = 0;
 
 int main(void)
 {
@@ -145,6 +146,7 @@ switch lantern_op_mode
 }
 #endif
 
+jack_pin = JACK_PLUGGED_IN_NOW;
 if(jack_needs_debounce)
 {
 	jack_state = debounce_jack();
@@ -162,10 +164,12 @@ else if(jack_state == FALSE)
 	lantern_op_mode = LIGHTING;
 }
 
+#if 1
 while(lantern_op_mode == CHARGING)
 {
 	charge_battery();
 }
+#endif
 
 #if LIGHTING_MODE	
 	if(button_needs_debounce)

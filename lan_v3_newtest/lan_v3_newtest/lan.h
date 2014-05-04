@@ -241,7 +241,7 @@ void loop(void);
 //---------------------------------------------------------
 
 #define BUTTON_PRESSED_NOW  (CHKBIT(PINB,BUTTON_PIN) == 0)
-#define JACK_PLUGGED_IN_NOW (CHKBIT(PINB,JACK_PIN) == 1)
+#define JACK_PLUGGED_IN_NOW (CHKBIT(PINB,JACK_PIN))
 
 //=========================================================
 // STRUCTURE DEFINITIONS
