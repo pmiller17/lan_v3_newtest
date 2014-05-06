@@ -15,7 +15,7 @@
 #include "lan.h"
 #include "adc.h"
 #include "debounce.h"
-#include "charging_rough.h"
+//#include "charging_rough.h"
 #include <avr/sleep.h>
 
 int target_pwm = 0;
@@ -27,6 +27,8 @@ volatile int jack_state = FALSE;
 int light_on = FALSE;
 lantern_op_mode_t lantern_op_mode = LIGHTING;
 int jack_pin = 0;
+volatile unsigned int battery_voltage = 0;
+volatile unsigned int battery_current = 0;
 
 int main(void)
 {
@@ -101,7 +103,11 @@ void setup(void)
 }
 void loop(void) 
 {
+	battery_current = adc_read_ibatt();
 
+	battery_voltage = adc_read_vbatt();
+	
+	
 #if 0
 switch lantern_op_mode
 {
@@ -146,6 +152,9 @@ switch lantern_op_mode
 }
 #endif
 
+#if 0
+
+
 jack_pin = JACK_PLUGGED_IN_NOW;
 if(jack_needs_debounce)
 {
@@ -163,8 +172,9 @@ else if(jack_state == FALSE)
 {
 	lantern_op_mode = LIGHTING;
 }
+#endif
 
-#if 1
+#if 0
 while(lantern_op_mode == CHARGING)
 {
 	charge_battery();

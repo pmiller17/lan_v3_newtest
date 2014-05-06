@@ -17,6 +17,8 @@ unsigned long int trickle_charge = 0;
 unsigned long int not_enough_volts = 0;
 unsigned int go_back_bulk = 0;
 unsigned int current_offset = 0;
+volatile int battery_voltage;
+volatile int battery_current;
 
 void initialize_charge(void)
 {
@@ -27,6 +29,9 @@ void initialize_charge(void)
 	not_enough_volts = 0;
 	go_back_bulk = FALSE;
 	current_offset = 0;
+	battery_current = 0;
+	battery_voltage = 0;
+	OCR1B = 0;
 	
 	charging_mode = CONSTANT_CURRENT;
 			
@@ -38,9 +43,6 @@ void initialize_charge(void)
 
 void charge_battery(void)
 {
-	
-	static int battery_current = 0;
-	static int battery_voltage = 0;
 	
 	switch(charging_mode)
 	{
