@@ -10,7 +10,7 @@ debounce the button, debounce the jack
 
 int debounce_jack(void)
 {
-	int jack_plugged_in = FALSE;
+	int jack_plugged_in;
 	volatile int debounce_counter = 0;
 	
 	while(debounce_counter < JACK_DELAY_TIME)

@@ -11,6 +11,7 @@
 
 int adc_read_iled(void);
 int adc_read_vbatt(void);
+int adc_read_ibatt(void);
 
 //=========================================================
 // ADC MACROS

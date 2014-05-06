@@ -10,17 +10,23 @@
 #include <avr/interrupt.h>
 */
 
+#define LIGHTING_MODE 0
+
 #include "lan.h"
 #include "adc.h"
 #include "debounce.h"
-
+#include "charging_rough.h"
+#include <avr/sleep.h>
 
 int target_pwm = 0;
 int adc_result = 0;
-volatile int needs_debounce = FALSE;
+volatile int button_needs_debounce = FALSE;
 int button_state = 0;
+volatile int jack_needs_debounce = FALSE;
+volatile int jack_state = FALSE;
 int light_on = FALSE;
-static int glitch_counter = 0;
+lantern_op_mode_t lantern_op_mode = LIGHTING;
+int jack_pin = 0;
 
 int main(void)
 {
@@ -59,7 +65,8 @@ void setup(void)
     /*  IO Configurations
     */
 	CFG_IO_BUTTON;		
-	CFG_IO_LED_ENABLE;	
+	CFG_IO_LED_ENABLE;
+	CFG_IO_JACK;	
     CFG_IO_PWM;			
     
     /*  Clock 1 (PWM clock) Configurations
@@ -81,40 +88,121 @@ void setup(void)
 
 	PCI_ENABLE;
 	BUTTON_PCI_ENABLE;
+	JACK_PCI_ENABLE;
 	
 	FPWM_CLR_COMP_MATCH;
 	TURN_ON_PWM_CLK;
-	
+#if 0	
+	set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+	sleep_enable();
+#endif
+
     sei();
 }
 void loop(void) 
 {
 
-
+#if 0
+switch lantern_op_mode
+{
+	case LIGHTING:
+		if(button_needs_debounce)
+		{
+			button_state = debounce_button();
+			button_needs_debounce = FALSE;	
+		}
+		//target 102
+		if(button_state == TRUE)
+		{
+			if(light_on == TRUE)
+			{
+				OCR1B = 0;
+				light_on = FALSE;
+				button_state = FALSE;
+			}
+			else
+			{
+				TURN_ON_PWM_CLK;
+				FPWM_CLR_COMP_MATCH;
+				target_pwm = 81;
+				light_on = TRUE;
+				button_state = FALSE;
+			}
+		}
+		adc_result = adc_read_iled();
+		if(light_on == TRUE)
+		{			
+			if(adc_result < target_pwm)
+			{
+				OCR1B++;
+			}
+			else if(adc_result > target_pwm)
+			{
+				OCR1B--;
+			}
+		}
+	case CHARGING:
 	
-	if(needs_debounce)
+}
+#endif
+
+jack_pin = JACK_PLUGGED_IN_NOW;
+if(jack_needs_debounce)
+{
+	jack_state = debounce_jack();
+	jack_needs_debounce = FALSE;
+}
+
+if(jack_state == TRUE)
+{
+	lantern_op_mode = CHARGING;
+	initialize_charge();
+}
+
+else if(jack_state == FALSE)
+{
+	lantern_op_mode = LIGHTING;
+}
+
+#if 1
+while(lantern_op_mode == CHARGING)
+{
+	charge_battery();
+}
+#endif
+
+#if LIGHTING_MODE	
+	if(button_needs_debounce)
 	{
 		button_state = debounce_button();
-		needs_debounce = FALSE;
+		button_needs_debounce = FALSE;
+		
 	}
 
 	//target 102
 	
 	if(button_state == TRUE)
 	{
+		cli();
 		if(light_on == TRUE)
 		{
 			OCR1B = 0;
 			light_on = FALSE;
 			button_state = FALSE;
+			sleep_enable();
+			sleep_cpu();
 		}
 		
 		else
 		{
-			target_pwm = 61;
+			sleep_disable();
+			TURN_ON_PWM_CLK;
+			FPWM_CLR_COMP_MATCH;
+			target_pwm = 81;
 			light_on = TRUE;
 			button_state = FALSE;
 		}
+		sei();
 	}
 	
 	adc_result = adc_read_iled();
@@ -131,14 +219,23 @@ void loop(void)
 			OCR1B--;
 		}
 	}
+#endif
 }
 
 ISR(PCINT_vect)
 {
 
-	if(BUTTON_PRESSED_NOW)
+	if(JACK_PLUGGED_IN_NOW)
 	{
-		needs_debounce = TRUE;
+		LED_DISABLE;
+		BUTTON_PCI_DISABLE;
+		jack_needs_debounce = TRUE;
+//		lantern_op_mode = SAFE_OFF;
+	}
+	else if(JACK_PLUGGED_IN_NOW == 0)
+	{
+//		 
+		jack_needs_debounce = TRUE;	
 	}
 	
 }
