@@ -12,7 +12,6 @@ battery_current     0x2               charging_rough.o
 battery_voltage     0x2               charging_rough.o
 overvoltage_thresh_count
                     0x4               charging_rough.o
-adc_read_mode       0x1               lan_v3_newtest.o
 charging_mode       0x1               charging_rough.o
 
 Discarded input sections
@@ -21,39 +20,17 @@ Discarded input sections
  .text          0x00000000        0x0 adc.o
  .bss           0x00000000        0x0 adc.o
  .text.adc_read_iled
-                0x00000000       0x18 adc.o
+                0x00000000       0x1a adc.o
  .text          0x00000000        0x0 charging_rough.o
  .bss           0x00000000        0x0 charging_rough.o
- .text.initialize_charge
-                0x00000000       0x92 charging_rough.o
- .text.charge_battery
-                0x00000000      0x372 charging_rough.o
- .bss.current_offset
-                0x00000000        0x2 charging_rough.o
- .bss.go_back_bulk
-                0x00000000        0x2 charging_rough.o
- .bss.not_enough_volts
-                0x00000000        0x4 charging_rough.o
- .bss.trickle_charge
-                0x00000000        0x4 charging_rough.o
- .bss.bulk_charge_reached
-                0x00000000        0x2 charging_rough.o
- .bss.enough_bulk_current_counter
-                0x00000000        0x4 charging_rough.o
  .text          0x00000000        0x0 debounce.o
  .bss           0x00000000        0x0 debounce.o
- .text.debounce_jack
-                0x00000000       0x7e debounce.o
  .text.debounce_button
                 0x00000000       0x78 debounce.o
  .text          0x00000000        0x0 lan_v3_newtest.o
  .bss           0x00000000        0x0 lan_v3_newtest.o
  .bss.jack_pin  0x00000000        0x2 lan_v3_newtest.o
- .bss.lantern_op_mode
-                0x00000000        0x1 lan_v3_newtest.o
  .bss.light_on  0x00000000        0x2 lan_v3_newtest.o
- .bss.jack_state
-                0x00000000        0x2 lan_v3_newtest.o
  .bss.button_state
                 0x00000000        0x2 lan_v3_newtest.o
  .bss.button_needs_debounce
@@ -211,7 +188,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x22a
+.text           0x00000000      0x6ba
  *(.vectors)
  .vectors       0x00000000       0x26 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1051/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr25/crttn461a.o
                 0x00000000                __vector_default
@@ -271,6 +248,7 @@ END GROUP
                 0x00000046                __bad_interrupt
                 0x00000046                __vector_6
                 0x00000046                __vector_3
+                0x00000046                __vector_11
                 0x00000046                __vector_13
                 0x00000046                __vector_17
                 0x00000046                __vector_7
@@ -286,28 +264,34 @@ END GROUP
                 0x00000048                . = ALIGN (0x2)
  *(.text.*)
  .text.adc_read_vbatt
-                0x00000048       0x18 adc.o
+                0x00000048       0x1a adc.o
                 0x00000048                adc_read_vbatt
  .text.adc_read_ibatt
-                0x00000060       0x18 adc.o
-                0x00000060                adc_read_ibatt
- .text.setup    0x00000078       0xfa lan_v3_newtest.o
-                0x00000078                setup
- .text.loop     0x00000172       0x18 lan_v3_newtest.o
-                0x00000172                loop
- .text.main     0x0000018a        0x6 lan_v3_newtest.o
-                0x0000018a                main
+                0x00000062       0x1a adc.o
+                0x00000062                adc_read_ibatt
+ .text.initialize_charge
+                0x0000007c       0x92 charging_rough.o
+                0x0000007c                initialize_charge
+ .text.charge_battery
+                0x0000010e      0x392 charging_rough.o
+                0x0000010e                charge_battery
+ .text.debounce_jack
+                0x000004a0       0x7e debounce.o
+                0x000004a0                debounce_jack
+ .text.setup    0x0000051e       0xf2 lan_v3_newtest.o
+                0x0000051e                setup
+ .text.loop     0x00000610       0x5a lan_v3_newtest.o
+                0x00000610                loop
+ .text.main     0x0000066a        0x6 lan_v3_newtest.o
+                0x0000066a                main
  .text.__vector_2
-                0x00000190       0x46 lan_v3_newtest.o
-                0x00000190                __vector_2
- .text.__vector_11
-                0x000001d6       0x50 lan_v3_newtest.o
-                0x000001d6                __vector_11
-                0x00000226                . = ALIGN (0x2)
+                0x00000670       0x46 lan_v3_newtest.o
+                0x00000670                __vector_2
+                0x000006b6                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000226        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1051/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr25\libgcc.a(_exit.o)
-                0x00000226                _exit
-                0x00000226                exit
+ .fini9         0x000006b6        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1051/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr25\libgcc.a(_exit.o)
+                0x000006b6                _exit
+                0x000006b6                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -326,11 +310,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000226        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1051/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr25\libgcc.a(_exit.o)
+ .fini0         0x000006b6        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1051/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr25\libgcc.a(_exit.o)
  *(.fini0)
-                0x0000022a                _etext = .
+                0x000006ba                _etext = .
 
-.data           0x00800060        0x0 load address 0x0000022a
+.data           0x00800060        0x0 load address 0x000006ba
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1051/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr25/crttn461a.o
@@ -348,31 +332,53 @@ END GROUP
                 0x00800060                _edata = .
                 0x00800060                PROVIDE (__data_end, .)
 
-.bss            0x00800060        0xc
+.bss            0x00800060       0x20
                 0x00800060                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
+ .bss.current_offset
+                0x00800060        0x2 charging_rough.o
+                0x00800060                current_offset
+ .bss.go_back_bulk
+                0x00800062        0x2 charging_rough.o
+                0x00800062                go_back_bulk
+ .bss.not_enough_volts
+                0x00800064        0x4 charging_rough.o
+                0x00800064                not_enough_volts
+ .bss.trickle_charge
+                0x00800068        0x4 charging_rough.o
+                0x00800068                trickle_charge
+ .bss.bulk_charge_reached
+                0x0080006c        0x2 charging_rough.o
+                0x0080006c                bulk_charge_reached
+ .bss.enough_bulk_current_counter
+                0x0080006e        0x4 charging_rough.o
+                0x0080006e                enough_bulk_current_counter
+ .bss.lantern_op_mode
+                0x00800072        0x1 lan_v3_newtest.o
+                0x00800072                lantern_op_mode
+ .bss.jack_state
+                0x00800073        0x2 lan_v3_newtest.o
+                0x00800073                jack_state
  .bss.jack_needs_debounce
-                0x00800060        0x2 lan_v3_newtest.o
-                0x00800060                jack_needs_debounce
+                0x00800075        0x2 lan_v3_newtest.o
+                0x00800075                jack_needs_debounce
  *(COMMON)
- COMMON         0x00800062        0x9 charging_rough.o
-                0x00800062                battery_current
-                0x00800064                battery_voltage
-                0x00800066                overvoltage_thresh_count
-                0x0080006a                charging_mode
- COMMON         0x0080006b        0x1 lan_v3_newtest.o
-                0x0080006b                adc_read_mode
-                0x0080006c                PROVIDE (__bss_end, .)
-                0x0000022a                __data_load_start = LOADADDR (.data)
-                0x0000022a                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00800077        0x9 charging_rough.o
+                0x00800077                battery_current
+                0x00800079                battery_voltage
+                0x0080007b                overvoltage_thresh_count
+                0x0080007f                charging_mode
+                0x00800080                PROVIDE (__bss_end, .)
+                0x000006ba                __data_load_start = LOADADDR (.data)
+                0x000006ba                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0080006c        0x0
-                0x0080006c                PROVIDE (__noinit_start, .)
+.noinit         0x00800080        0x0
+                0x00800080                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x0080006c                PROVIDE (__noinit_end, .)
-                0x0080006c                _end = .
-                0x0080006c                PROVIDE (__heap_start, .)
+                0x00800080                PROVIDE (__noinit_end, .)
+                0x00800080                _end = .
+                0x00800080                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -434,7 +440,7 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0xc0
+.debug_aranges  0x00000000       0xb8
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x30 adc.o
@@ -443,40 +449,40 @@ END GROUP
  .debug_aranges
                 0x00000058       0x28 debounce.o
  .debug_aranges
-                0x00000080       0x40 lan_v3_newtest.o
+                0x00000080       0x38 lan_v3_newtest.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x5d4
+.debug_info     0x00000000      0x5a1
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000       0xb3 adc.o
- .debug_info    0x000000b3      0x1c7 charging_rough.o
- .debug_info    0x0000027a       0xe6 debounce.o
- .debug_info    0x00000360      0x274 lan_v3_newtest.o
+ .debug_info    0x00000000       0xbb adc.o
+ .debug_info    0x000000bb      0x1cf charging_rough.o
+ .debug_info    0x0000028a       0xe6 debounce.o
+ .debug_info    0x00000370      0x231 lan_v3_newtest.o
 
-.debug_abbrev   0x00000000      0x2b9
+.debug_abbrev   0x00000000      0x29e
  *(.debug_abbrev)
- .debug_abbrev  0x00000000       0x6b adc.o
- .debug_abbrev  0x0000006b       0xb5 charging_rough.o
- .debug_abbrev  0x00000120       0x94 debounce.o
- .debug_abbrev  0x000001b4      0x105 lan_v3_newtest.o
+ .debug_abbrev  0x00000000       0x53 adc.o
+ .debug_abbrev  0x00000053       0xb7 charging_rough.o
+ .debug_abbrev  0x0000010a       0x94 debounce.o
+ .debug_abbrev  0x0000019e      0x100 lan_v3_newtest.o
 
-.debug_line     0x00000000      0x431
+.debug_line     0x00000000      0x457
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000       0xd0 adc.o
- .debug_line    0x000000d0      0x12c charging_rough.o
- .debug_line    0x000001fc       0xe5 debounce.o
- .debug_line    0x000002e1      0x150 lan_v3_newtest.o
+ .debug_line    0x00000000       0xe7 adc.o
+ .debug_line    0x000000e7      0x12c charging_rough.o
+ .debug_line    0x00000213       0xe5 debounce.o
+ .debug_line    0x000002f8      0x15f lan_v3_newtest.o
 
-.debug_frame    0x00000000      0x158
+.debug_frame    0x00000000      0x134
  *(.debug_frame)
  .debug_frame   0x00000000       0x44 adc.o
  .debug_frame   0x00000044       0x34 charging_rough.o
  .debug_frame   0x00000078       0x54 debounce.o
- .debug_frame   0x000000cc       0x8c lan_v3_newtest.o
+ .debug_frame   0x000000cc       0x68 lan_v3_newtest.o
 
-.debug_str      0x00000000      0x40f
+.debug_str      0x00000000      0x3ce
  *(.debug_str)
  .debug_str     0x00000000      0x160 adc.o
                                 0x194 (size before relaxing)
@@ -484,13 +490,13 @@ END GROUP
                                 0x2a6 (size before relaxing)
  .debug_str     0x0000028b       0x5e debounce.o
                                 0x1bb (size before relaxing)
- .debug_str     0x000002e9      0x126 lan_v3_newtest.o
-                                0x2c1 (size before relaxing)
+ .debug_str     0x000002e9       0xe5 lan_v3_newtest.o
+                                0x291 (size before relaxing)
 
-.debug_loc      0x00000000      0x1be
+.debug_loc      0x00000000      0x175
  *(.debug_loc)
  .debug_loc     0x00000000      0x108 debounce.o
- .debug_loc     0x00000108       0xb6 lan_v3_newtest.o
+ .debug_loc     0x00000108       0x6d lan_v3_newtest.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -510,12 +516,12 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0x80
+.debug_ranges   0x00000000       0x78
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x20 adc.o
  .debug_ranges  0x00000020       0x18 charging_rough.o
  .debug_ranges  0x00000038       0x18 debounce.o
- .debug_ranges  0x00000050       0x30 lan_v3_newtest.o
+ .debug_ranges  0x00000050       0x28 lan_v3_newtest.o
 
 .debug_macro
  *(.debug_macro)

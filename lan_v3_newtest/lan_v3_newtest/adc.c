@@ -17,18 +17,18 @@ int adc_read_iled()
 	return ADCH;
 }
 
-void adc_read_vbatt(void)
+unsigned int adc_read_vbatt(void)
 {	
 	CFG_ADC_VBATT_GAIN_1;
 	ADC_TRIGGER_MEASUREMENT;
-	ADC_TRIGGER_MEASUREMENT;
-	
+	return ADCH;
 }
 
-void adc_read_ibatt(void)
+unsigned int adc_read_ibatt(void)
 {
 	CFG_ADC_IBATT_GAIN_32;
 	ADC_TRIGGER_MEASUREMENT;
-	ADC_TRIGGER_MEASUREMENT;
+	return ADCH;
+	
 }
 

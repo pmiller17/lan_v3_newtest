@@ -15,7 +15,7 @@
 #include "lan.h"
 #include "adc.h"
 #include "debounce.h"
-//#include "charging_rough.h"
+#include "charging_rough.h"
 #include <avr/sleep.h>
 
 int target_pwm = 0;
@@ -29,7 +29,7 @@ lantern_op_mode_t lantern_op_mode = LIGHTING;
 int jack_pin = 0;
 volatile unsigned int battery_voltage;
 volatile unsigned int battery_current;
-volatile adc_read_mode_t adc_read_mode;
+
 
 int main(void)
 {
@@ -85,7 +85,7 @@ void setup(void)
     CFG_ADC;
 
     ADC_ENABLE;
-    ADC_ISR_ENABLE;
+//    ADC_ISR_ENABLE;
     
     LED_ENABLE;
 
@@ -102,20 +102,13 @@ void setup(void)
 	
 	battery_current = 0;
 	battery_voltage = 0;
-	adc_read_mode = IBATT;
+
     sei();
 }
 void loop(void) 
 {
-	if(adc_read_mode == IBATT)
-		adc_read_ibatt();
-		
-	else if(adc_read_mode == VBATT)
-		adc_read_vbatt();
-		
 
-	
-	
+
 	
 #if 0
 switch lantern_op_mode
@@ -161,10 +154,9 @@ switch lantern_op_mode
 }
 #endif
 
-#if 0
+#if 1
 
 
-jack_pin = JACK_PLUGGED_IN_NOW;
 if(jack_needs_debounce)
 {
 	jack_state = debounce_jack();
@@ -183,7 +175,7 @@ else if(jack_state == FALSE)
 }
 #endif
 
-#if 0
+#if 1
 while(lantern_op_mode == CHARGING)
 {
 	charge_battery();
@@ -259,20 +251,9 @@ ISR(PCINT_vect)
 	
 }
 
+#if 0
 ISR(ADC_vect)
 {
-	cli();
-	switch (adc_read_mode)
-	{
-		case IBATT:
-		battery_current = ADCH;
-		adc_read_mode = VBATT;
-		break;
-		
-		case VBATT:
-		battery_voltage = ADCH;
-		adc_read_mode = IBATT;
-		break;
-	}
-	sei();
+	;
 }
+#endif

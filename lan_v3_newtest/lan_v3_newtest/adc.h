@@ -10,8 +10,8 @@
 #define ADC_H_
 
 int adc_read_iled(void);
-void adc_read_vbatt(void);
-void adc_read_ibatt(void);
+unsigned int adc_read_vbatt(void);
+unsigned int adc_read_ibatt(void);
 
 //=========================================================
 // ADC MACROS
@@ -116,15 +116,6 @@ do									\
 }                                   \
 while(0)
 
-#define ADC_IN_PROGRESS (CHKBIT(ADCSRA,ADSC)==1)
-
-typedef enum
-{
-	VBATT,
-	IBATT,
-	ILED,
-	VTEMP
-	} adc_read_mode_t;
-
+#define ADC_IN_PROGRESS (CHKBIT(ADCSRA,ADSC))
 
 #endif /* ADC_H_ */

@@ -98,8 +98,8 @@ void charge_battery(void)
 
 		case CONSTANT_VOLTAGE:
 			
-			adc_read_vbatt();
-			adc_read_ibatt();
+			battery_voltage = adc_read_vbatt();
+			battery_current = adc_read_ibatt();
 			current_offset = battery_current/32;
 			
 			if(battery_voltage - current_offset > 220)
@@ -161,8 +161,8 @@ void charge_battery(void)
 		
 		case TRICKLE_CHARGE:
 			
-			adc_read_vbatt();
-			adc_read_ibatt();
+			battery_voltage = adc_read_vbatt();
+			battery_current = adc_read_ibatt();
 			current_offset = battery_current/32;
 			
 			if(battery_voltage - current_offset > 220)
