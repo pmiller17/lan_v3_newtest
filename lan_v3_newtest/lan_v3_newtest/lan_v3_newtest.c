@@ -85,7 +85,7 @@ void setup(void)
     CFG_ADC;
 
     ADC_ENABLE;
-//    ADC_ISR_ENABLE;
+	ADC_ISR_ENABLE;
     
     LED_ENABLE;
 
@@ -251,9 +251,8 @@ ISR(PCINT_vect)
 	
 }
 
-#if 0
+
 ISR(ADC_vect)
 {
 	;
 }
-#endif

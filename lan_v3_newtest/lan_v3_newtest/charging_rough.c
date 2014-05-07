@@ -49,8 +49,8 @@ void charge_battery(void)
 
 		case CONSTANT_CURRENT:
 			
-			adc_read_ibatt();
-			adc_read_vbatt();
+			battery_current = adc_read_ibatt();
+			battery_voltage = adc_read_vbatt();
 			current_offset = battery_current/32;
 			
 			if(battery_current < 242)
