@@ -27,8 +27,9 @@ volatile int jack_state = FALSE;
 int light_on = FALSE;
 lantern_op_mode_t lantern_op_mode = LIGHTING;
 int jack_pin = 0;
-volatile unsigned int battery_voltage = 0;
-volatile unsigned int battery_current = 0;
+volatile unsigned int battery_voltage;
+volatile unsigned int battery_current;
+volatile adc_read_mode_t adc_read_mode;
 
 int main(void)
 {
@@ -98,14 +99,22 @@ void setup(void)
 	set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 	sleep_enable();
 #endif
-
+	
+	battery_current = 0;
+	battery_voltage = 0;
+	adc_read_mode = IBATT;
     sei();
 }
 void loop(void) 
 {
-	battery_current = adc_read_ibatt();
+	if(adc_read_mode == IBATT)
+		adc_read_ibatt();
+		
+	else if(adc_read_mode == VBATT)
+		adc_read_vbatt();
+		
 
-	battery_voltage = adc_read_vbatt();
+	
 	
 	
 #if 0
@@ -252,5 +261,18 @@ ISR(PCINT_vect)
 
 ISR(ADC_vect)
 {
-	;
+	cli();
+	switch (adc_read_mode)
+	{
+		case IBATT:
+		battery_current = ADCH;
+		adc_read_mode = VBATT;
+		break;
+		
+		case VBATT:
+		battery_voltage = ADCH;
+		adc_read_mode = IBATT;
+		break;
+	}
+	sei();
 }

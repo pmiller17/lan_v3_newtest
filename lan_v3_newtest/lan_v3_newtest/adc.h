@@ -10,8 +10,8 @@
 #define ADC_H_
 
 int adc_read_iled(void);
-volatile unsigned int adc_read_vbatt(void);
-volatile unsigned int adc_read_ibatt(void);
+void adc_read_vbatt(void);
+void adc_read_ibatt(void);
 
 //=========================================================
 // ADC MACROS
@@ -27,6 +27,7 @@ do                                  \
 	CLRBIT(ADMUX,REFS1);            \
 	SETBIT(ADMUX,REFS0);            \
 	SETBIT(ADMUX,ADLAR);            \
+	CLRBIT(ADCSRA,ADATE);			\
 }                                   \
 while(0)
 
@@ -117,6 +118,13 @@ while(0)
 
 #define ADC_IN_PROGRESS (CHKBIT(ADCSRA,ADSC)==1)
 
+typedef enum
+{
+	VBATT,
+	IBATT,
+	ILED,
+	VTEMP
+	} adc_read_mode_t;
 
 
 #endif /* ADC_H_ */
