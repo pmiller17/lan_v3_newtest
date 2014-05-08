@@ -22,6 +22,7 @@ void loop(void);
 #define SETBIT(ADDRESS,BIT) (ADDRESS |= (unsigned char)(1<<BIT))
 #define CLRBIT(ADDRESS,BIT) (ADDRESS &= (unsigned char)~(1<<BIT))
 #define	CHKBIT(ADDRESS,BIT) (ADDRESS & (unsigned char)(1<<BIT))
+// modify so that it returns either 1 or 0 by having it reshift back to LSB?
 //usage: if (CHKBIT(ADDRESS,BIT))
 
 //=========================================================

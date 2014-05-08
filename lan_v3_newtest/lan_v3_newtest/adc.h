@@ -76,7 +76,7 @@ do                                  \
 	SETBIT(ADMUX,MUX2);             \
 	SETBIT(ADMUX,MUX1);             \
 	CLRBIT(ADMUX,MUX0);             \
-	SETBIT(ADCSRB,GSEL);            \
+	CLRBIT(ADCSRB,GSEL);            \
 }                                   \
 while(0)
 

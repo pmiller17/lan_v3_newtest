@@ -36,7 +36,7 @@ void initialize_charge(void)
 	charging_mode = CONSTANT_CURRENT;
 			
 	ADC_ENABLE;
-	ADC_ISR_ENABLE;
+//	ADC_ISR_ENABLE;
 	FPWM_CLR_COMP_MATCH;
 	TURN_ON_PWM_CLK;
 }
@@ -50,8 +50,8 @@ void charge_battery(void)
 		case CONSTANT_CURRENT:
 			
 			battery_current = adc_read_ibatt();
-			battery_voltage = adc_read_vbatt();
-			current_offset = battery_current/32;
+
+			current_offset = battery_current/320;
 			
 			if(battery_current < 242)
 			{
@@ -76,6 +76,7 @@ void charge_battery(void)
 				enough_bulk_current_counter = 0;
 			}
 			
+			battery_voltage = adc_read_vbatt();			
 			if(bulk_charge_reached == TRUE)
 			{
 				if(battery_voltage - current_offset > 220)
@@ -100,7 +101,7 @@ void charge_battery(void)
 			
 			battery_voltage = adc_read_vbatt();
 			battery_current = adc_read_ibatt();
-			current_offset = battery_current/32;
+			current_offset = battery_current/320;
 			
 			if(battery_voltage - current_offset > 220)
 			{
@@ -139,7 +140,7 @@ void charge_battery(void)
 			if(go_back_bulk)
 			{
 				charging_mode = CONSTANT_CURRENT;
-				go_back_bulk = 0;
+				go_back_bulk = FALSE;
 			}	
 		
 			if(battery_current < 10)
@@ -163,7 +164,7 @@ void charge_battery(void)
 			
 			battery_voltage = adc_read_vbatt();
 			battery_current = adc_read_ibatt();
-			current_offset = battery_current/32;
+			current_offset = battery_current/320;
 			
 			if(battery_voltage - current_offset > 220)
 			{

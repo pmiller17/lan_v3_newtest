@@ -10,7 +10,12 @@
 #include <avr/interrupt.h>
 */
 
+
+//
 #define LIGHTING_MODE 0
+#define RUN_CHARGING 1
+#define JACK_DEBOUNCE 1
+#define TEST_IBATT 0
 
 #include "lan.h"
 #include "adc.h"
@@ -29,7 +34,7 @@ lantern_op_mode_t lantern_op_mode = LIGHTING;
 int jack_pin = 0;
 volatile unsigned int battery_voltage;
 volatile unsigned int battery_current;
-
+uint8_t pwm_value;
 
 int main(void)
 {
@@ -85,7 +90,7 @@ void setup(void)
     CFG_ADC;
 
     ADC_ENABLE;
-	ADC_ISR_ENABLE;
+//	ADC_ISR_ENABLE;
     
     LED_ENABLE;
 
@@ -102,59 +107,23 @@ void setup(void)
 	
 	battery_current = 0;
 	battery_voltage = 0;
-
+	pwm_value = 0;
     sei();
 }
 void loop(void) 
 {
-
-
 	
-#if 0
-switch lantern_op_mode
-{
-	case LIGHTING:
-		if(button_needs_debounce)
-		{
-			button_state = debounce_button();
-			button_needs_debounce = FALSE;	
-		}
-		//target 102
-		if(button_state == TRUE)
-		{
-			if(light_on == TRUE)
-			{
-				OCR1B = 0;
-				light_on = FALSE;
-				button_state = FALSE;
-			}
-			else
-			{
-				TURN_ON_PWM_CLK;
-				FPWM_CLR_COMP_MATCH;
-				target_pwm = 81;
-				light_on = TRUE;
-				button_state = FALSE;
-			}
-		}
-		adc_result = adc_read_iled();
-		if(light_on == TRUE)
-		{			
-			if(adc_result < target_pwm)
-			{
-				OCR1B++;
-			}
-			else if(adc_result > target_pwm)
-			{
-				OCR1B--;
-			}
-		}
-	case CHARGING:
 	
-}
+#if TEST_IBATT
+
+	OCR1B = pwm_value;
+	battery_current = adc_read_ibatt();
+
 #endif
 
-#if 1
+	
+
+#if JACK_DEBOUNCE
 
 
 if(jack_needs_debounce)
@@ -175,10 +144,11 @@ else if(jack_state == FALSE)
 }
 #endif
 
-#if 1
+#if RUN_CHARGING
 while(lantern_op_mode == CHARGING)
 {
 	charge_battery();
+	pwm_value = OCR1B;
 }
 #endif
 
@@ -251,8 +221,9 @@ ISR(PCINT_vect)
 	
 }
 
-
+#if 0
 ISR(ADC_vect)
 {
 	;
 }
+#endif

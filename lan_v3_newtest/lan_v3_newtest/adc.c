@@ -19,16 +19,23 @@ int adc_read_iled()
 
 unsigned int adc_read_vbatt(void)
 {	
+	volatile unsigned int dummy;
 	CFG_ADC_VBATT_GAIN_1;
 	ADC_TRIGGER_MEASUREMENT;
-	return ADCH;
+	dummy = ADCH;
+	ADC_TRIGGER_MEASUREMENT;
+	dummy = ADCH;
+	return dummy;
 }
 
 unsigned int adc_read_ibatt(void)
 {
+	volatile unsigned int dummy;
 	CFG_ADC_IBATT_GAIN_32;
 	ADC_TRIGGER_MEASUREMENT;
-	return ADCH;
-	
+	dummy = ADCH;
+	ADC_TRIGGER_MEASUREMENT;
+	dummy = ADCH;
+	return dummy;
 }
 
