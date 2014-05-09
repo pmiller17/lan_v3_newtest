@@ -20,7 +20,7 @@ unsigned int current_offset = 0;
 volatile int battery_voltage;
 volatile int battery_current;
 
-void initialize_charge(void)
+void initialize_charging_mode(void)
 {
 	overvoltage_thresh_count = 0;
 	enough_bulk_current_counter = 0;

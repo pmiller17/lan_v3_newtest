@@ -16,7 +16,7 @@
 #define TAPER_CURRENT
 
 void charge_battery(void);
-void initialize_charge(void);
+void initialize_charging_mode(void);
 
 typedef enum
 {

@@ -30,7 +30,7 @@ int button_state = 0;
 volatile int jack_needs_debounce = FALSE;
 volatile int jack_state = FALSE;
 int light_on = FALSE;
-lantern_op_mode_t lantern_op_mode = LIGHTING;
+volatile lantern_mode_t lantern_mode = LIGHTING, previous_mode;
 int jack_pin = 0;
 volatile unsigned int battery_voltage;
 volatile unsigned int battery_current;
@@ -134,18 +134,18 @@ if(jack_needs_debounce)
 
 if(jack_state == TRUE)
 {
-	lantern_op_mode = CHARGING;
-	initialize_charge();
+	lantern_mode = CHARGING;
+	initialize_charging_mode();
 }
 
 else if(jack_state == FALSE)
 {
-	lantern_op_mode = LIGHTING;
+	lantern_mode = LIGHTING;
 }
 #endif
 
 #if RUN_CHARGING
-while(lantern_op_mode == CHARGING)
+while(lantern_mode == CHARGING)
 {
 	charge_battery();
 	pwm_value = OCR1B;

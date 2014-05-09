@@ -255,6 +255,6 @@ typedef enum
     CHARGING,
 	SAFE_OFF,
 	NEEDS_CHARGE
-} lantern_op_mode_t;
+} lantern_mode_t;
 
 #endif
