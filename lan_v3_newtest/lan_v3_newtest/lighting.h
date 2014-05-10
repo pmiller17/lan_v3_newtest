@@ -14,6 +14,11 @@ void initialize_lighting_mode(void);
 void flicker_led(void); // may want to have input be number of times
 void led_control(void);
 
-
+typedef enum
+{
+	OFF,
+	DIM,
+	BRIGHT,
+	} lighting_mode_t;
 
 #endif /* LIGHTING_H_ */
