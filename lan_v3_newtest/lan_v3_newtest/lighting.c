@@ -12,21 +12,15 @@
 
 #define DIM_CURRENT
 #define BRIGHT_CURRENT
-<<<<<<< HEAD
-<<<<<<< HEAD
 #define BLINK_ON_TIME
 #define BLINK_OFF_TIME
 #define BLINK_TARGET_CURRENT
-=======
 #define FLICKER_ON_TIME
 #define FLICKER_OFF_TIME
 #define FLICKER_TARGET_CURRENT
->>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
-=======
 #define FLICKER_ON_TIME
 #define FLICKER_OFF_TIME
 #define FLICKER_TARGET_CURRENT
->>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
 
 lighting_mode_t lighting_mode;
 
@@ -47,32 +41,21 @@ void cycle_led_mode(void)
 			break;
 	}
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
-=======
-
->>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
 void initialize_lighting_mode(void) // move this one to lan_v3_newtest.c
 {
 	LED_ENABLE;
 	BUTTON_PCI_ENABLE;
 	
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 void flicker_led(void) // may want to have input be number of times
 {
 	volatile int timewaste_count = 0;
 	int led_current;
 	/for(timewaste_count = 0;)
 }
-void led_control(void);
-=======
-=======
->>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
+
 
 void flicker_led(void) // may want to have input be number of times
 {
@@ -121,9 +104,6 @@ void run_lighting_mode(void)
 			led_control_current(BRIGHT_CURRENT);
 		break;
 	}
-<<<<<<< HEAD
+
 }
->>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
-=======
-}
->>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
+
