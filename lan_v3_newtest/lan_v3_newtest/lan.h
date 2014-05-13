@@ -257,7 +257,10 @@ typedef enum
 	NEEDS_CHARGE
 } lantern_mode_t;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
 
 typedef struct
 {
@@ -267,5 +270,8 @@ typedef struct
 } task_t;
 
 #endif
+<<<<<<< HEAD
+>>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
+=======
 >>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
 
