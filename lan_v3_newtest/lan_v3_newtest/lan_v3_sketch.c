@@ -27,7 +27,15 @@ void setup(void)
 
 void loop(void)
 {
+<<<<<<< HEAD
+<<<<<<< HEAD
 	switch(lantern_op_mode)
+=======
+	switch(lantern_mode)
+>>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
+=======
+	switch(lantern_mode)
+>>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
 	{
 		case LIGHTING:
 			if(task.debounce_button)
@@ -38,6 +46,8 @@ void loop(void)
 			
 			if(button_pressed)
 			{
+<<<<<<< HEAD
+<<<<<<< HEAD
 				cycle_lighting();
 				button_pressed = FALSE;
 			}
@@ -46,11 +56,43 @@ void loop(void)
 			lighting_mode_control();	//will sleep if "OFF" and control light otherwise
 			
 			break;
+=======
+=======
+>>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
+				cycle_led_mode();
+				button_pressed = FALSE;
+			}
+			
+			if(task.update_runtime)
+			{
+				battery_usage = calculate_lantern_usage();
+				task.update_runtime = FALSE;
+			}
+			
+			if(battery_usage > BATTERY_USAGE_LIMIT)
+				lantern_mode = NEEDS_CHARGE;
+			
+			/*need function to say "light LED"?*/
+			run_lighting_mode();	//will sleep if "OFF" and control light otherwise
+			
+		break;
+<<<<<<< HEAD
+>>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
+=======
+>>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
 			
 		case CHARGING:
 			charge_battery();
 			
+<<<<<<< HEAD
+<<<<<<< HEAD
 			break;
+=======
+		break;
+>>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
+=======
+		break;
+>>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
 		
 		case NEEDS_CHARGE:
 			if(task.debounce_button)
@@ -63,7 +105,15 @@ void loop(void)
 				flicker_led();
 				button_pressed = FALSE;
 			}
+<<<<<<< HEAD
+<<<<<<< HEAD
 			break;
+=======
+		break;
+>>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
+=======
+		break;
+>>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
 			
 		case SAFE_OFF:
 			
@@ -85,10 +135,32 @@ void loop(void)
 					button & jack PCI enables.
 				*/
 			}
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+		break;
+>>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
+=======
+		break;
+>>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
 	}
 
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
+ISR(TIMER0_OVF_vect)
+{
+	task.update_runtime = TRUE;
+}
+
+<<<<<<< HEAD
+>>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
+=======
+>>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
 ISR(PCINT_vect)
 {
 	if(JACK_PLUGGED_IN_NOW)
