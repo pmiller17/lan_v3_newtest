@@ -255,6 +255,17 @@ typedef enum
     CHARGING,
 	SAFE_OFF,
 	NEEDS_CHARGE
-} lantern_op_mode_t;
+} lantern_mode_t;
+<<<<<<< HEAD
+=======
+
+typedef struct
+{
+	debounce_button : 0;
+	debounce_jack	: 0;
+	update_runtime	: 0;
+} task_t;
 
 #endif
+>>>>>>> 8e8623bd8ce1f83e7e9656634e1cbedb82632166
+

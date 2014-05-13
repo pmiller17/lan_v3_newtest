@@ -9,7 +9,7 @@
 #ifndef ADC_H_
 #define ADC_H_
 
-int adc_read_iled(void);
+unsigned int adc_read_iled(void);
 unsigned int adc_read_vbatt(void);
 unsigned int adc_read_ibatt(void);
 

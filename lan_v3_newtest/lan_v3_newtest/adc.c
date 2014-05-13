@@ -8,13 +8,15 @@
 #include "adc.h"
 #include "lan.h"
 
-int adc_read_iled()
+unsigned int adc_read_iled()
 {
+	volatile unsigned int dummy;
 	CFG_ADC_ILED_GAIN_20;
 	ADC_TRIGGER_MEASUREMENT;
-//	ADC_TRIGGER_MEASUREMENT;
-	
-	return ADCH;
+	dummy = ADCH;
+	ADC_TRIGGER_MEASUREMENT;
+	dummy = ADCH;
+	return dummy;
 }
 
 unsigned int adc_read_vbatt(void)

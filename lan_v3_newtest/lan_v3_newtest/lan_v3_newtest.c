@@ -22,6 +22,7 @@
 #include "debounce.h"
 #include "charging_rough.h"
 #include <avr/sleep.h>
+#include "lighting.h"
 
 int target_pwm = 0;
 int adc_result = 0;
@@ -30,7 +31,7 @@ int button_state = 0;
 volatile int jack_needs_debounce = FALSE;
 volatile int jack_state = FALSE;
 int light_on = FALSE;
-lantern_op_mode_t lantern_op_mode = LIGHTING;
+volatile lantern_mode_t lantern_mode = LIGHTING, previous_mode;
 int jack_pin = 0;
 volatile unsigned int battery_voltage;
 volatile unsigned int battery_current;
@@ -134,18 +135,18 @@ if(jack_needs_debounce)
 
 if(jack_state == TRUE)
 {
-	lantern_op_mode = CHARGING;
-	initialize_charge();
+	lantern_mode = CHARGING;
+	initialize_charging_mode();
 }
 
 else if(jack_state == FALSE)
 {
-	lantern_op_mode = LIGHTING;
+	lantern_mode = LIGHTING;
 }
 #endif
 
 #if RUN_CHARGING
-while(lantern_op_mode == CHARGING)
+while(lantern_mode == CHARGING)
 {
 	charge_battery();
 	pwm_value = OCR1B;
@@ -164,26 +165,7 @@ while(lantern_op_mode == CHARGING)
 	
 	if(button_state == TRUE)
 	{
-		cli();
-		if(light_on == TRUE)
-		{
-			OCR1B = 0;
-			light_on = FALSE;
-			button_state = FALSE;
-			sleep_enable();
-			sleep_cpu();
-		}
-		
-		else
-		{
-			sleep_disable();
-			TURN_ON_PWM_CLK;
-			FPWM_CLR_COMP_MATCH;
-			target_pwm = 81;
-			light_on = TRUE;
-			button_state = FALSE;
-		}
-		sei();
+		cycle_led();
 	}
 	
 	adc_result = adc_read_iled();
