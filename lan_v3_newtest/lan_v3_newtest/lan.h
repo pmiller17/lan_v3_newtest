@@ -257,4 +257,12 @@ typedef enum
 	NEEDS_CHARGE
 } lantern_mode_t;
 
+typedef struct
+{
+	debounce_button : 0;
+	debounce_jack	: 0;
+	update_runtime	: 0;
+} task_t;
+
 #endif
+

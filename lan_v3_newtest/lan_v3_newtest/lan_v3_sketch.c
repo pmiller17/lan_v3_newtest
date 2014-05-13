@@ -27,7 +27,7 @@ void setup(void)
 
 void loop(void)
 {
-	switch(lantern_op_mode)
+	switch(lantern_mode)
 	{
 		case LIGHTING:
 			if(task.debounce_button)
@@ -38,19 +38,28 @@ void loop(void)
 			
 			if(button_pressed)
 			{
-				cycle_lighting();
+				cycle_led_mode();
 				button_pressed = FALSE;
 			}
 			
-			/*need function to say "light LED"?*/
-			lighting_mode_control();	//will sleep if "OFF" and control light otherwise
+			if(task.update_runtime)
+			{
+				battery_usage = calculate_lantern_usage();
+				task.update_runtime = FALSE;
+			}
 			
-			break;
+			if(battery_usage > BATTERY_USAGE_LIMIT)
+				lantern_mode = NEEDS_CHARGE;
+			
+			/*need function to say "light LED"?*/
+			run_lighting_mode();	//will sleep if "OFF" and control light otherwise
+			
+		break;
 			
 		case CHARGING:
 			charge_battery();
 			
-			break;
+		break;
 		
 		case NEEDS_CHARGE:
 			if(task.debounce_button)
@@ -63,7 +72,7 @@ void loop(void)
 				flicker_led();
 				button_pressed = FALSE;
 			}
-			break;
+		break;
 			
 		case SAFE_OFF:
 			
@@ -85,8 +94,14 @@ void loop(void)
 					button & jack PCI enables.
 				*/
 			}
+		break;
 	}
 
+}
+
+ISR(TIMER0_OVF_vect)
+{
+	task.update_runtime = TRUE;
 }
 
 ISR(PCINT_vect)

@@ -22,6 +22,7 @@
 #include "debounce.h"
 #include "charging_rough.h"
 #include <avr/sleep.h>
+#include "lighting.h"
 
 int target_pwm = 0;
 int adc_result = 0;
@@ -164,26 +165,7 @@ while(lantern_mode == CHARGING)
 	
 	if(button_state == TRUE)
 	{
-		cli();
-		if(light_on == TRUE)
-		{
-			OCR1B = 0;
-			light_on = FALSE;
-			button_state = FALSE;
-			sleep_enable();
-			sleep_cpu();
-		}
-		
-		else
-		{
-			sleep_disable();
-			TURN_ON_PWM_CLK;
-			FPWM_CLR_COMP_MATCH;
-			target_pwm = 81;
-			light_on = TRUE;
-			button_state = FALSE;
-		}
-		sei();
+		cycle_led();
 	}
 	
 	adc_result = adc_read_iled();
