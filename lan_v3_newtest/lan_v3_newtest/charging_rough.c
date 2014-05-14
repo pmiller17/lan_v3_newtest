@@ -20,6 +20,11 @@ unsigned int current_offset = 0;
 volatile int battery_voltage;
 volatile int battery_current;
 
+void slow_start_charging(void)
+{
+	;
+}
+
 void initialize_charging_mode(void)
 {
 	overvoltage_thresh_count = 0;
