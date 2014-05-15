@@ -10,17 +10,11 @@
 #include "adc.h"
 #include "lighting.h"
 
-#define DIM_CURRENT
-#define BRIGHT_CURRENT
-#define BLINK_ON_TIME
-#define BLINK_OFF_TIME
-#define BLINK_TARGET_CURRENT
-#define FLICKER_ON_TIME
-#define FLICKER_OFF_TIME
-#define FLICKER_TARGET_CURRENT
-#define FLICKER_ON_TIME
-#define FLICKER_OFF_TIME
-#define FLICKER_TARGET_CURRENT
+#define DIM_CURRENT 35	// about 35 mA, 35/255 max reading
+#define BRIGHT_CURRENT 102 // about 100 mA, 100/255 max reading
+#define FLICKER_ON_TIME 1000 // just a guess
+#define FLICKER_OFF_TIME 1000 // just a guess
+#define FLICKER_TARGET_CURRENT 20 // just for blink -- current value not critical
 
 lighting_mode_t lighting_mode;
 

@@ -202,10 +202,3 @@ ISR(PCINT_vect)
 	}
 	
 }
-
-#if 0
-ISR(ADC_vect)
-{
-	;
-}
-#endif
